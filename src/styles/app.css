@@ -1,0 +1,1203 @@
+/* Layout and components, ported from claude-design/Schaefchens.dc.html.
+ * Every measurement here comes from the mockup's inline styles. */
+
+/* --- fonts (self-hosted; the mockup hotlinked Google Fonts) ---------------- */
+
+@font-face {
+  font-family: Newsreader;
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url(/fonts/newsreader-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Newsreader;
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url(/fonts/newsreader-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: Newsreader;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/newsreader-italic-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Newsreader;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/newsreader-italic-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(/fonts/outfit-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(/fonts/outfit-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --- base ----------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Outfit, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent-tx);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-hi);
+}
+
+/* The mockup shipped no focus styling at all — this is the one place the port
+ * deliberately adds to it rather than copying. Keyboard users get a visible
+ * ring; mouse users see nothing change. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+img {
+  max-width: 100%;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.shell {
+  min-height: 100vh;
+  background: radial-gradient(120% 80% at 50% -10%, var(--bg-top) 0%, var(--bg) 55%);
+  color: var(--ink);
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 4vw, 56px);
+}
+
+/* --- header --------------------------------------------------------------- */
+
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-height: 64px;
+  padding: 0 clamp(16px, 4vw, 56px);
+  background: var(--header-bg);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--accent-ln);
+}
+
+.hdr__brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex: none;
+}
+.hdr__avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--accent-br);
+}
+.hdr__names {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.hdr__word {
+  font-family: Newsreader, serif;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-2);
+}
+.hdr__word em {
+  font-style: normal;
+  color: var(--accent-tx);
+}
+.hdr__blessing {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-tx);
+}
+/* The emoji opts out of the wide tracking — letter-spacing would otherwise push
+   it away from the words — and runs a shade larger, since emoji read small at
+   11.5px next to uppercase text. */
+.hdr__blessingEmoji {
+  display: inline-block;
+  /* The uppercase tracking puts air after every letter; without a little of its
+     own the emoji collides with the final one. */
+  margin-left: 5px;
+  font-size: 13px;
+  letter-spacing: normal;
+  vertical-align: -0.08em;
+}
+
+.hdr__nav {
+  display: flex;
+  gap: 6px;
+  margin-left: 18px;
+  margin-right: auto;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hdr__nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 5px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--nav);
+  border-bottom: 2px solid transparent;
+}
+
+/* Sized in em so the glyph tracks the label, and held a touch dimmer than the
+   text so the word stays the thing you read first. */
+.nav-ico {
+  flex: none;
+  font-size: 15px;
+  opacity: 0.72;
+  transition: opacity 0.18s ease;
+}
+.hdr__nav a:hover .nav-ico,
+.hdr__nav a[aria-current='page'] .nav-ico {
+  opacity: 1;
+}
+.hdr__nav a:hover,
+.hdr__nav a[aria-current='page'] {
+  color: var(--accent-hi);
+  border-bottom-color: var(--accent);
+}
+
+.seg {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.seg button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 24px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--faint);
+  font-family: Newsreader, serif;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.seg button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-ghost {
+  flex: none;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--nav);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  color: var(--accent-hi);
+  border-color: var(--accent-br);
+}
+
+.btn-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 9px;
+}
+.flag {
+  flex: none;
+  display: block;
+  border-radius: 2.5px;
+}
+
+/* The header is dense; below ~900px the nav wraps to its own row. */
+@media (max-width: 900px) {
+  .hdr {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-block: 10px;
+  }
+  .hdr__nav {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    gap: 2px;
+  }
+  .hdr__nav a {
+    padding: 6px 9px 5px;
+    gap: 6px;
+    font-size: 14px;
+  }
+  .nav-ico {
+    font-size: 14px;
+  }
+  .seg,
+  .btn-ghost {
+    margin-left: auto;
+  }
+  .seg + .btn-ghost {
+    margin-left: 0;
+  }
+}
+
+/* --- hero ----------------------------------------------------------------- */
+
+.hero {
+  padding: clamp(48px, 7vw, 96px) clamp(16px, 4vw, 56px) 40px;
+  max-width: 1180px;
+  margin: 0 auto;
+  text-align: center;
+}
+.kicker {
+  margin: 0 0 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-tx);
+}
+.hero h1 {
+  margin: 0;
+  font-family: Newsreader, serif;
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink-hi);
+  text-wrap: balance;
+}
+.hero p {
+  margin: 20px auto 0;
+  max-width: 620px;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.6;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.chips {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted-2);
+}
+.chip--accent {
+  border-color: var(--accent-ln);
+  color: var(--accent-tx);
+}
+
+/* --- sections and cards --------------------------------------------------- */
+
+.section {
+  margin-bottom: 64px;
+  scroll-margin-top: 90px;
+}
+.section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+.section__head h2 {
+  margin: 0;
+  font-family: Newsreader, serif;
+  font-size: 29px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.section__head span {
+  font-size: 13.5px;
+  color: var(--faint-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--panel);
+  animation: rise 0.5s ease both;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+a.card:hover {
+  border-color: var(--accent-br);
+  transform: translateY(-3px);
+  background: var(--panel-hi);
+}
+.card--soon {
+  opacity: 0.72;
+}
+
+.card__art {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.card__art::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(216, 178, 92, 0.3);
+}
+.card__icon {
+  width: 40%;
+  max-width: 96px;
+  /* height:auto or the width/height attributes on the <img> win and
+     aspect-ratio is ignored — both dimensions would then be definite. */
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 22%;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+}
+.card__glyph {
+  font-family: Newsreader, serif;
+  font-size: 74px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+.card__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: rgba(15, 20, 38, 0.62);
+  backdrop-filter: blur(6px);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e4d7b4;
+}
+
+.card__body {
+  padding: 16px 17px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex: 1;
+}
+.card__name {
+  font-family: Newsreader, serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.card__tagline {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted-2);
+  text-wrap: pretty;
+}
+.card__foot {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--faint-2);
+}
+
+/* --- panels (about, licence, faith teaser) -------------------------------- */
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: clamp(26px, 4vw, 48px);
+  background: var(--panel);
+  scroll-margin-top: 90px;
+}
+.panel--split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(26px, 4vw, 54px);
+  align-items: start;
+  margin-bottom: 26px;
+}
+.panel h2 {
+  margin: 0;
+  font-family: Newsreader, serif;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink-hi);
+  text-wrap: pretty;
+}
+.panel p {
+  margin: 16px 0 0;
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.about__portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.about__portrait img {
+  width: clamp(150px, 20vw, 216px);
+  height: clamp(150px, 20vw, 216px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--accent-br);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+}
+
+.ticks {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ticks li {
+  display: flex;
+  gap: 11px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ticks li::before {
+  content: '✦';
+  color: var(--accent-tx);
+  flex: none;
+}
+
+.lic__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.pill {
+  padding: 11px 18px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 500;
+}
+.pill--accent {
+  border-color: var(--accent-br);
+  color: var(--accent-tx);
+}
+.pill:hover {
+  border-color: var(--accent-br);
+  color: var(--accent-hi);
+}
+
+.faith-teaser {
+  border: 1px solid var(--accent-ln);
+  border-radius: 22px;
+  padding: clamp(28px, 4vw, 52px);
+  background: linear-gradient(180deg, var(--accent-tint), rgba(216, 178, 92, 0));
+  scroll-margin-top: 90px;
+}
+.faith-teaser h2 {
+  margin: 0;
+  max-width: 720px;
+  font-family: Newsreader, serif;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink-hi);
+  text-wrap: pretty;
+}
+.faith-teaser p {
+  margin: 18px 0 0;
+  max-width: 640px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.cta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+.btn-solid {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 11px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.btn-solid:hover {
+  color: var(--on-accent);
+  filter: brightness(1.06);
+}
+.btn-outline {
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 14.5px;
+}
+
+/* --- detail --------------------------------------------------------------- */
+
+.detail__hero {
+  position: relative;
+  padding: clamp(30px, 5vw, 64px) clamp(16px, 4vw, 56px) 0;
+}
+.detail__hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 20, 38, 0.25), rgba(15, 20, 38, 0.92));
+}
+.detail__heroInner {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-bottom: clamp(30px, 4vw, 52px);
+}
+.detail__back {
+  font-size: 13.5px;
+  color: #e2d6b6;
+}
+.detail__id {
+  display: flex;
+  gap: clamp(20px, 3vw, 36px);
+  align-items: flex-end;
+  margin-top: clamp(46px, 9vw, 120px);
+  flex-wrap: wrap;
+}
+.detail__icon {
+  flex: none;
+  width: 112px;
+  height: 112px;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(15, 20, 38, 0.42);
+  object-fit: cover;
+}
+.detail__titles {
+  min-width: 240px;
+  flex: 1;
+}
+.detail__titles p:first-child {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e4d7b4;
+}
+.detail__titles h1 {
+  margin: 0;
+  font-family: Newsreader, serif;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: #fbf7ee;
+}
+.detail__titles .detail__tagline {
+  margin: 12px 0 0;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #d2cab8;
+}
+
+.detail__body {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 34px clamp(16px, 4vw, 56px) 96px;
+}
+
+.installs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
+}
+.install {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--ink);
+}
+.install:hover {
+  opacity: 0.88;
+  color: var(--ink);
+}
+.install--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.install--primary:hover {
+  color: var(--on-accent);
+}
+.install__icon {
+  font-family: Newsreader, serif;
+  font-size: 22px;
+  line-height: 1;
+}
+.install__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.install__small {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+.install__label {
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+.srcline {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--faint);
+}
+.srcline a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.srcline a:hover {
+  border-color: var(--accent-br);
+  color: var(--accent-hi);
+}
+
+.shots {
+  display: grid;
+  /* Capped columns, not 1fr: an entry with a single screenshot would otherwise
+     stretch it across the full width of the page. auto-fill keeps the row
+     left-aligned instead of centring one lonely image. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 190px));
+  gap: 14px;
+  margin: 34px 0 0;
+  justify-content: start;
+}
+
+/* Walk in the Spirit is landscape-locked; a portrait frame would show a thin
+   letterboxed band with black above and below it. */
+.shots--landscape {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 340px));
+}
+.shots img {
+  width: 100%;
+  /* Same trap as .card__icon: without this the height attribute (960) is used
+     verbatim and every screenshot renders four times too tall. */
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: 0 12px 34px var(--shot-shadow);
+}
+
+/* Ties with `.shots img` on specificity, so it has to come after it. */
+.shots--landscape img {
+  aspect-ratio: 16 / 9;
+}
+
+.detail__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: 52px;
+}
+.detail__cols h2 {
+  margin: 0 0 14px;
+  font-family: Newsreader, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.detail__cols h3 {
+  margin: 34px 0 12px;
+  font-family: Newsreader, serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.detail__cols > div > p {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.quote {
+  margin: 28px 0 0;
+  padding: 18px 22px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-tint);
+  font-family: Newsreader, serif;
+  font-size: 19px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--quote);
+}
+.quote footer {
+  margin-top: 9px;
+  font-family: Outfit, sans-serif;
+  font-style: normal;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.aside {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  background: var(--panel);
+  align-self: start;
+}
+.aside h3 {
+  margin: 0 0 16px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-tx);
+}
+.meta {
+  display: grid;
+  gap: 13px;
+}
+.meta__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+.meta__row dt {
+  color: var(--faint);
+  margin: 0;
+}
+.meta__row dd {
+  color: var(--ink);
+  text-align: right;
+  margin: 0;
+}
+
+.related {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 18px;
+}
+.related a {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+}
+.related a:hover {
+  border-color: rgba(216, 178, 92, 0.4);
+}
+.related img {
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+.related__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.related__name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.related__badge {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+/* --- forms ---------------------------------------------------------------- */
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+.form input,
+.form textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--input-bg);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+}
+.form textarea {
+  resize: vertical;
+}
+.form input::placeholder,
+.form textarea::placeholder {
+  color: var(--faint-2);
+}
+.form button {
+  padding: 13px 20px;
+  border: none;
+  border-radius: 11px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.form button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+.form label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted-2);
+}
+.form label input {
+  margin-top: 3px;
+  accent-color: #d8b25c;
+}
+.form__note {
+  font-size: 12.5px;
+  color: var(--faint-2);
+}
+.form__note--error {
+  color: #e2a2a2;
+}
+/* The honeypot: a real field, off-screen, that humans never see or tab into. */
+.form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.support {
+  scroll-margin-top: 90px;
+  margin-top: 56px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(24px, 3.5vw, 40px);
+  background: var(--panel);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(22px, 3.5vw, 44px);
+}
+.support h2 {
+  margin: 0;
+  font-family: Newsreader, serif;
+  font-size: clamp(23px, 2.8vw, 30px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink-hi);
+}
+.support p {
+  margin: 14px 0 0;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* --- prose pages (faith, imprint, privacy, contact) ----------------------- */
+
+.prose {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 80px) clamp(16px, 4vw, 56px) 88px;
+}
+.prose--wide {
+  max-width: 860px;
+}
+.prose h1 {
+  margin: 22px 0 0;
+  font-family: Newsreader, serif;
+  font-size: clamp(30px, 4.6vw, 50px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink-hi);
+}
+.prose__lead {
+  margin: 20px 0 0;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--lead);
+  text-wrap: pretty;
+}
+.prose__note {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--faint);
+}
+.prose section {
+  margin-top: 36px;
+}
+.prose section h2 {
+  margin: 0 0 10px;
+  font-family: Newsreader, serif;
+  font-size: 23px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.prose section p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--muted);
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+.prose__verse {
+  margin-top: 44px;
+  padding: 22px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-tint);
+  font-family: Newsreader, serif;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--quote);
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(22px, 3.5vw, 44px);
+  margin-top: 36px;
+}
+.contact__form {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 30px);
+  background: var(--panel);
+}
+.contact__cards {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+.contact__card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  background: var(--panel);
+}
+.contact__card p:first-child {
+  margin: 0 0 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-tx);
+}
+.contact__card p:last-child {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* --- footer --------------------------------------------------------------- */
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 34px clamp(16px, 4vw, 56px);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.footer__tag {
+  font-family: Newsreader, serif;
+  font-size: 16px;
+  color: var(--faint);
+}
+.footer__links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  color: var(--faint);
+}
+.footer__links button {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent-tx);
+  cursor: pointer;
+}
+.footer__links button:hover {
+  color: var(--accent-hi);
+}

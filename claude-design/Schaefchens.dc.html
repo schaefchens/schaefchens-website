@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1426;--bg-top:#1b2444;--ink:#e9e3d6;--ink-hi:#f6f1e6;--ink-2:#f3eee2;--nav:#cfc7b6;--lead:#c2baa8;--muted:#b6ae9d;--muted-2:#a29a8a;--faint:#8d8575;--faint-2:#7e7768;--quote:#e6dcc3;--accent:#d8b25c;--accent-tx:#d8b25c;--accent-hi:#f0cf86;--on-accent:#141a2e;--line:rgba(233,227,214,.11);--line-soft:rgba(233,227,214,.08);--border:rgba(233,227,214,.2);--panel:rgba(255,255,255,.028);--panel-hi:rgba(255,255,255,.05);--header-bg:rgba(15,20,38,.82);--input-bg:rgba(15,20,38,.5);--on-accent-inv:#141a2e;--accent-br:rgba(216,178,92,.48);--accent-ln:rgba(216,178,92,.24);--accent-tint:rgba(216,178,92,.08)}
+body{margin:0;background:var(--bg);font-family:Outfit,system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background .25s ease}
+a{color:var(--accent-tx);text-decoration:none}
+a:hover{color:var(--accent-hi)}
+*{box-sizing:border-box}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div style="{{ themeVars }}min-height:100vh;background:radial-gradient(120% 80% at 50% -10%,var(--bg-top) 0%,var(--bg) 55%);color:var(--ink)">
+
+  <sc-if value="{{ isGate }}" hint-placeholder-val="{{ false }}">
+  <main style="min-height:100vh;display:grid;place-items:center;padding:clamp(24px,6vw,72px) 20px">
+    <sc-if value="{{ gateAsk }}" hint-placeholder-val="{{ true }}">
+    <form onSubmit="{{ onGate }}" style="width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--line);border-radius:26px;padding:clamp(28px,5vw,44px) clamp(22px,4vw,38px);background:var(--panel)">
+      <img src="https://blog.schaefchens.de/img/avatar_hu_a8778aa618de5b7d.jpg" alt="schäfchens.de" style="width:104px;height:104px;border-radius:50%;object-fit:cover;border:1px solid var(--accent-br)">
+      <span style="margin-top:20px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">schäfchens.de</span>
+      <p style="margin:18px 0 0;max-width:300px;font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty">{{ t.gateIntro }}</p>
+      <h1 style="margin:12px 0 0;font-family:Newsreader,serif;font-size:clamp(27px,4.4vw,36px);font-weight:400;line-height:1.15;color:var(--ink-hi)">{{ t.gateQuestion }}</h1>
+      <input type="password" name="answer" autocomplete="off" placeholder="{{ t.gatePlaceholder }}" style="margin-top:26px;width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:16px;text-align:center;letter-spacing:.14em">
+      <button type="submit" style="margin-top:12px;width:100%;padding:14px 20px;border:none;border-radius:12px;background:var(--accent);color:var(--on-accent);font-family:Outfit,sans-serif;font-size:15.5px;font-weight:600;cursor:pointer">{{ t.gateSubmit }}</button>
+      <button type="button" onClick="{{ toggleLangGate }}" style="margin-top:16px;padding:6px 12px;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--faint);font-family:Outfit,sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;cursor:pointer">{{ langLabel }}</button>
+    </form>
+    </sc-if>
+
+    <sc-if value="{{ gateError }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--line);border-radius:26px;padding:clamp(28px,5vw,44px) clamp(22px,4vw,38px);background:var(--panel)">
+      <img src="https://blog.schaefchens.de/img/avatar_hu_a8778aa618de5b7d.jpg" alt="schäfchens.de" style="width:104px;height:104px;border-radius:50%;object-fit:cover;border:1px solid var(--border);filter:grayscale(1);opacity:.45">
+      <span style="margin-top:20px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">schäfchens.de</span>
+      <p style="margin:10px 0 0;font-family:Newsreader,serif;font-size:clamp(26px,4.2vw,34px);font-weight:400;line-height:1.15;color:var(--ink-hi);text-wrap:balance">{{ t.gateDenied }}</p>
+    </div>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ true }}">
+  <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:28px;height:64px;padding:0 clamp(16px,4vw,56px);background:var(--header-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--accent-ln)">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;flex:none">
+      <img src="https://blog.schaefchens.de/img/avatar_hu_a8778aa618de5b7d.jpg" alt="schäfchens.de" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid var(--accent-br)">
+      <span style="display:flex;flex-direction:column;line-height:1.15">
+        <span style="font-family:Newsreader,serif;font-size:21px;font-weight:500;letter-spacing:.01em;color:var(--ink-2)">schäfchens<span style="color:var(--accent-tx)">.de</span></span>
+        <span style="font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-tx)">{{ blessing }}</span>
+      </span>
+    </a>
+    <nav style="display:flex;gap:6px;margin-left:18px;margin-right:auto;align-items:center">
+      <a href="#apps" onClick="{{ jumpApps }}" style="padding:6px 12px 5px;font-size:15px;font-weight:500;color:var(--nav);border-bottom:2px solid transparent" style-hover="color:var(--accent-hi);border-bottom-color:var(--accent)">{{ navApps }}</a>
+      <a href="#games" onClick="{{ jumpGames }}" style="padding:6px 12px 5px;font-size:15px;font-weight:500;color:var(--nav);border-bottom:2px solid transparent" style-hover="color:var(--accent-hi);border-bottom-color:var(--accent)">{{ navGames }}</a>
+      <a href="#" onClick="{{ openFaith }}" style="padding:6px 12px 5px;font-size:15px;font-weight:500;color:var(--nav);border-bottom:2px solid transparent" style-hover="color:var(--accent-hi);border-bottom-color:var(--accent)">{{ navFaith }}</a>
+      <a href="#" onClick="{{ openContact }}" style="padding:6px 12px 5px;font-size:15px;font-weight:500;color:var(--nav);border-bottom:2px solid transparent" style-hover="color:var(--accent-hi);border-bottom-color:var(--accent)">{{ navContact }}</a>
+      <a href="https://blog.schaefchens.de" target="_blank" style="padding:6px 12px 5px;font-size:15px;font-weight:500;color:var(--nav);border-bottom:2px solid transparent" style-hover="color:var(--accent-hi);border-bottom-color:var(--accent)">{{ navBlog }}</a>
+    </nav>
+    <div style="flex:none;display:flex;align-items:center;gap:6px;padding:3px;border:1px solid var(--border);border-radius:10px">
+      <sc-for list="{{ themeBtns }}" as="b" hint-placeholder-count="3">
+        <button onClick="{{ b.onClick }}" title="{{ b.title }}" style="display:grid;place-items:center;width:28px;height:24px;border:none;border-radius:7px;background:{{ b.bg }};color:{{ b.fg }};font-family:Newsreader,serif;font-size:14px;line-height:1;cursor:pointer">{{ b.icon }}</button>
+      </sc-for>
+    </div>
+    <button onClick="{{ toggleLang }}" style="flex:none;padding:7px 12px;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--nav);font-family:Outfit,sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.08em;cursor:pointer">{{ langLabel }}</button>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="padding:clamp(48px,7vw,96px) clamp(16px,4vw,56px) 40px;max-width:1180px;margin:0 auto;text-align:center">
+      <p style="margin:0 0 18px;font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-tx)">{{ t.kicker }}</p>
+      <h1 style="margin:0;font-family:Newsreader,serif;font-size:clamp(38px,6vw,68px);font-weight:400;line-height:1.05;letter-spacing:-.02em;color:var(--ink-hi);text-wrap:balance">{{ t.heroTitle }}</h1>
+      <p style="margin:20px auto 0;max-width:620px;font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--muted);text-wrap:pretty">{{ t.heroSub }}</p>
+      <div style="display:flex;justify-content:center;gap:10px;margin-top:30px;flex-wrap:wrap">
+        <span style="padding:7px 14px;border:1px solid var(--accent-ln);border-radius:999px;font-size:13px;color:var(--accent-tx)">{{ t.chipFree }}</span>
+        <span style="padding:7px 14px;border:1px solid var(--border);border-radius:999px;font-size:13px;color:var(--muted-2)">{{ t.chipPlatforms }}</span>
+      </div>
+    </section>
+
+    <section style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,56px) 96px">
+      <div id="apps" style="margin-bottom:64px;scroll-margin-top:90px">
+        <div style="display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:26px">
+          <h2 style="margin:0;font-family:Newsreader,serif;font-size:29px;font-weight:500;color:var(--ink-2)">{{ appsTitle }}</h2>
+          <span style="font-size:13.5px;color:var(--faint-2)">{{ appsNote }}</span>
+        </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:20px">
+            <sc-for list="{{ appItems }}" as="it" hint-placeholder-count="3">
+              <a href="#" onClick="{{ it.onOpen }}" style="display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel);animation:rise .5s ease both" style-hover="border-color:var(--accent-br);transform:translateY(-3px);background:var(--panel-hi)">
+                <div style="position:relative;aspect-ratio:16/10;display:grid;place-items:center;background:{{ it.art }};overflow:hidden">
+                  <span style="font-family:Newsreader,serif;font-size:74px;font-weight:400;color:rgba(255,255,255,.9);text-shadow:0 2px 30px rgba(0,0,0,.35)">{{ it.glyph }}</span>
+                  <span style="position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(216,178,92,.3)"></span>
+                  <span style="position:absolute;top:10px;left:10px;padding:4px 9px;border-radius:7px;background:rgba(15,20,38,.62);backdrop-filter:blur(6px);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#e4d7b4">{{ it.badge }}</span>
+                </div>
+                <div style="padding:16px 17px 18px;display:flex;flex-direction:column;gap:7px;flex:1">
+                  <span style="font-family:Newsreader,serif;font-size:20px;font-weight:500;color:var(--ink-2)">{{ it.name }}</span>
+                  <span style="font-size:13.5px;line-height:1.5;color:var(--muted-2);text-wrap:pretty">{{ it.tagline }}</span>
+                  <span style="margin-top:auto;padding-top:10px;display:flex;gap:7px;align-items:center;font-size:11.5px;letter-spacing:.06em;color:var(--faint-2)">{{ it.platformLine }}</span>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+      </div>
+
+      <div id="games" style="margin-bottom:64px;scroll-margin-top:90px">
+        <div style="display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:26px">
+          <h2 style="margin:0;font-family:Newsreader,serif;font-size:29px;font-weight:500;color:var(--ink-2)">{{ gamesTitle }}</h2>
+          <span style="font-size:13.5px;color:var(--faint-2)">{{ gamesNote }}</span>
+        </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:20px">
+            <sc-for list="{{ gameItems }}" as="it" hint-placeholder-count="3">
+              <a href="#" onClick="{{ it.onOpen }}" style="display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel);animation:rise .5s ease both" style-hover="border-color:var(--accent-br);transform:translateY(-3px);background:var(--panel-hi)">
+                <div style="position:relative;aspect-ratio:16/10;display:grid;place-items:center;background:{{ it.art }};overflow:hidden">
+                  <span style="font-family:Newsreader,serif;font-size:74px;font-weight:400;color:rgba(255,255,255,.9);text-shadow:0 2px 30px rgba(0,0,0,.35)">{{ it.glyph }}</span>
+                  <span style="position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(216,178,92,.3)"></span>
+                  <span style="position:absolute;top:10px;left:10px;padding:4px 9px;border-radius:7px;background:rgba(15,20,38,.62);backdrop-filter:blur(6px);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#e4d7b4">{{ it.badge }}</span>
+                </div>
+                <div style="padding:16px 17px 18px;display:flex;flex-direction:column;gap:7px;flex:1">
+                  <span style="font-family:Newsreader,serif;font-size:20px;font-weight:500;color:var(--ink-2)">{{ it.name }}</span>
+                  <span style="font-size:13.5px;line-height:1.5;color:var(--muted-2);text-wrap:pretty">{{ it.tagline }}</span>
+                  <span style="margin-top:auto;padding-top:10px;display:flex;gap:7px;align-items:center;font-size:11.5px;letter-spacing:.06em;color:var(--faint-2)">{{ it.platformLine }}</span>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+      </div>
+
+      <div id="about" style="scroll-margin-top:90px;margin-bottom:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(26px,4vw,54px);align-items:start;border:1px solid var(--line);border-radius:22px;padding:clamp(26px,4vw,48px);background:var(--panel)">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:18px">
+          <img src="https://blog.schaefchens.de/img/avatar_hu_a8778aa618de5b7d.jpg" alt="schäfchens.de" style="width:clamp(150px,20vw,216px);height:clamp(150px,20vw,216px);border-radius:50%;object-fit:cover;border:1px solid var(--accent-br);box-shadow:0 18px 60px rgba(0,0,0,.35)">
+          <div style="display:grid;gap:9px">
+            <sc-for list="{{ aboutFacts }}" as="f" hint-placeholder-count="4">
+              <span style="display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:var(--muted)"><span style="color:var(--accent-tx)">✦</span>{{ f }}</span>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <p style="margin:0 0 12px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">{{ aboutKicker }}</p>
+          <h2 style="margin:0;font-family:Newsreader,serif;font-size:clamp(26px,3.2vw,36px);font-weight:400;line-height:1.15;color:var(--ink-hi);text-wrap:pretty">{{ aboutTitle }}</h2>
+          <p style="margin:16px 0 0;font-size:16.5px;line-height:1.7;color:var(--muted);text-wrap:pretty">{{ aboutBody }}</p>
+          <p style="margin:14px 0 0;font-size:16.5px;line-height:1.7;color:var(--muted);text-wrap:pretty">{{ aboutBody2 }}</p>
+        </div>
+      </div>
+
+      <div id="lizenz" style="scroll-margin-top:90px;margin-bottom:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,48px);border:1px solid var(--line);border-radius:22px;padding:clamp(26px,4vw,44px);background:var(--panel)">
+        <div>
+          <p style="margin:0 0 12px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">{{ licKicker }}</p>
+          <h2 style="margin:0;font-family:Newsreader,serif;font-size:clamp(24px,3vw,33px);font-weight:400;line-height:1.2;color:var(--ink-hi);text-wrap:pretty">{{ licTitle }}</h2>
+          <p style="margin:16px 0 0;font-size:16px;line-height:1.7;color:var(--muted);text-wrap:pretty">{{ licBody }}</p>
+          <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+            <a href="https://polyformproject.org/licenses/noncommercial/1.0.0/" target="_blank" style="padding:11px 18px;border:1px solid var(--accent-br);border-radius:11px;font-size:14.5px;font-weight:500">{{ licCta }}</a>
+            <a href="https://github.com/schaefchens" target="_blank" style="padding:11px 18px;border:1px solid var(--border);border-radius:11px;color:var(--ink);font-size:14.5px;font-weight:500">github.com/schaefchens</a>
+          </div>
+        </div>
+        <ul style="margin:0;padding:0;list-style:none;display:grid;gap:11px;align-content:start">
+          <sc-for list="{{ licPoints }}" as="p" hint-placeholder-count="4">
+            <li style="display:flex;gap:11px;font-size:15px;line-height:1.55;color:var(--muted)"><span style="color:var(--accent-tx)">✦</span>{{ p }}</li>
+          </sc-for>
+        </ul>
+      </div>
+
+      <div id="glaube" style="scroll-margin-top:90px;border:1px solid var(--accent-ln);border-radius:22px;padding:clamp(28px,4vw,52px);background:linear-gradient(180deg,var(--accent-tint),rgba(216,178,92,0))">
+        <p style="margin:0 0 14px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">{{ t.faithKicker }}</p>
+        <h2 style="margin:0;max-width:720px;font-family:Newsreader,serif;font-size:clamp(26px,3.4vw,40px);font-weight:400;line-height:1.2;color:var(--ink-hi);text-wrap:pretty">{{ t.faithTitle }}</h2>
+        <p style="margin:18px 0 0;max-width:640px;font-size:16px;line-height:1.65;color:var(--muted);text-wrap:pretty">{{ t.faithBody }}</p>
+        <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">
+          <a href="#" onClick="{{ openFaith }}" style="padding:12px 20px;border-radius:11px;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:14.5px">{{ t.faithCta }}</a>
+          <a href="https://blog.schaefchens.de" target="_blank" style="padding:12px 20px;border:1px solid var(--border);border-radius:11px;color:var(--ink);font-weight:500;font-size:14.5px">{{ t.blogCta }}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <div style="position:relative;padding:clamp(30px,5vw,64px) clamp(16px,4vw,56px) 0;background:{{ d.art }}">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,20,38,.25),rgba(15,20,38,.92))"></div>
+      <div style="position:relative;max-width:1080px;margin:0 auto;padding-bottom:clamp(30px,4vw,52px)">
+        <a href="#" onClick="{{ goHome }}" style="font-size:13.5px;color:#e2d6b6">{{ t.back }}</a>
+        <div style="display:flex;gap:clamp(20px,3vw,36px);align-items:flex-end;margin-top:clamp(46px,9vw,120px);flex-wrap:wrap">
+          <div style="flex:none;width:112px;height:112px;border-radius:26px;border:1px solid rgba(255,255,255,.35);background:rgba(15,20,38,.42);display:grid;place-items:center;font-family:Newsreader,serif;font-size:52px;color:#fbf7ee">{{ d.glyph }}</div>
+          <div style="min-width:240px;flex:1">
+            <p style="margin:0 0 8px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#e4d7b4">{{ d.badge }}</p>
+            <h1 style="margin:0;font-family:Newsreader,serif;font-size:clamp(32px,5vw,54px);font-weight:400;line-height:1.05;color:#fbf7ee">{{ d.name }}</h1>
+            <p style="margin:12px 0 0;max-width:560px;font-size:17px;line-height:1.55;color:#d2cab8">{{ d.tagline }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1080px;margin:0 auto;padding:34px clamp(16px,4vw,56px) 96px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+        <sc-for list="{{ d.installs }}" as="b" hint-placeholder-count="3">
+          <a href="{{ b.href }}" target="_blank" style="display:flex;align-items:center;gap:13px;padding:15px 18px;border-radius:14px;border:1px solid {{ b.border }};background:{{ b.bg }};color:{{ b.fg }}" style-hover="opacity:.88">
+            <span style="font-family:Newsreader,serif;font-size:22px;line-height:1">{{ b.icon }}</span>
+            <span style="display:flex;flex-direction:column;line-height:1.25">
+              <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.72">{{ b.small }}</span>
+              <span style="font-size:15.5px;font-weight:600">{{ b.label }}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:16px 0 0;font-size:14px;color:var(--faint)">
+        <a href="{{ d.github }}" target="_blank" style="display:flex;align-items:center;gap:9px;padding:10px 15px;border:1px solid var(--border);border-radius:11px;color:var(--ink);font-weight:500" style-hover="border-color:var(--accent-br);color:var(--accent-hi)"><span style="font-family:Newsreader,serif;font-size:17px">⌥</span>{{ t.sourceCta }}</a>
+        <span>{{ t.licenseLine }}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:14px;margin:34px 0 0">
+        <sc-for list="{{ d.shots }}" as="s" hint-placeholder-count="4">
+          <div style="aspect-ratio:9/16;border-radius:16px;border:1px dashed var(--border);background:var(--panel);display:grid;place-items:center;text-align:center;padding:14px;font-size:12px;line-height:1.5;color:var(--faint-2)">{{ s }}</div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,56px);margin-top:52px">
+        <div>
+          <h2 style="margin:0 0 14px;font-family:Newsreader,serif;font-size:26px;font-weight:500;color:var(--ink-2)">{{ t.about }}</h2>
+          <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--muted);text-wrap:pretty">{{ d.body }}</p>
+          <blockquote style="margin:28px 0 0;padding:18px 22px;border-left:2px solid var(--accent);background:var(--accent-tint);font-family:Newsreader,serif;font-size:19px;line-height:1.55;font-style:italic;color:var(--quote)">
+            {{ d.verse }}
+            <footer style="margin-top:9px;font-family:Outfit,sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)">{{ d.verseRef }}</footer>
+          </blockquote>
+          <h3 style="margin:34px 0 12px;font-family:Newsreader,serif;font-size:21px;font-weight:500;color:var(--ink-2)">{{ t.features }}</h3>
+          <ul style="margin:0;padding:0;list-style:none;display:grid;gap:10px">
+            <sc-for list="{{ d.features }}" as="f" hint-placeholder-count="4">
+              <li style="display:flex;gap:11px;font-size:15.5px;line-height:1.55;color:var(--muted)"><span style="color:var(--accent-tx)">✦</span>{{ f }}</li>
+            </sc-for>
+          </ul>
+        </div>
+        <aside style="border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--panel);align-self:start">
+          <h3 style="margin:0 0 16px;font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-tx)">{{ t.info }}</h3>
+          <div style="display:grid;gap:13px">
+            <sc-for list="{{ d.meta }}" as="m" hint-placeholder-count="5">
+              <div style="display:flex;justify-content:space-between;gap:14px;padding-bottom:13px;border-bottom:1px solid var(--line-soft);font-size:14px">
+                <span style="color:var(--faint)">{{ m.k }}</span>
+                <span style="color:var(--ink);text-align:right">{{ m.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </aside>
+      </div>
+
+      <div id="support" style="scroll-margin-top:90px;margin-top:56px;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3.5vw,40px);background:var(--panel);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(22px,3.5vw,44px)">
+        <div>
+          <p style="margin:0 0 11px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">{{ t.supKicker }}</p>
+          <h2 style="margin:0;font-family:Newsreader,serif;font-size:clamp(23px,2.8vw,30px);font-weight:400;line-height:1.2;color:var(--ink-hi)">{{ t.supTitle }}</h2>
+          <p style="margin:14px 0 0;font-size:15.5px;line-height:1.65;color:var(--muted);text-wrap:pretty">{{ t.supBody }}</p>
+        </div>
+        <form onSubmit="{{ onSupportSubmit }}" style="display:grid;gap:12px">
+          <input type="text" placeholder="{{ t.supName }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px">
+          <input type="email" placeholder="{{ t.supMail }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px">
+          <textarea rows="4" placeholder="{{ t.supMsg }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px;resize:vertical"></textarea>
+          <button type="submit" style="padding:13px 20px;border:none;border-radius:11px;background:var(--accent);color:var(--on-accent);font-family:Outfit,sans-serif;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:var(--accent)">{{ t.supSend }}</button>
+          <span style="font-size:12.5px;color:var(--faint-2)">{{ supNote }}</span>
+        </form>
+      </div>
+
+      <h2 style="margin:64px 0 22px;font-family:Newsreader,serif;font-size:26px;font-weight:500;color:var(--ink-2)">{{ t.more }}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:18px">
+        <sc-for list="{{ related }}" as="it" hint-placeholder-count="3">
+          <a href="#" onClick="{{ it.onOpen }}" style="display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--panel)" style-hover="border-color:rgba(216,178,92,.4)">
+            <span style="flex:none;width:54px;height:54px;border-radius:14px;background:{{ it.art }};display:grid;place-items:center;font-family:Newsreader,serif;font-size:26px;color:rgba(255,255,255,.92)">{{ it.glyph }}</span>
+            <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+              <span style="font-size:16px;font-weight:500;color:var(--ink-2)">{{ it.name }}</span>
+              <span style="font-size:12.5px;color:var(--faint)">{{ it.badge }}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isFaith }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:760px;margin:0 auto;padding:clamp(44px,7vw,88px) clamp(16px,4vw,56px) 96px">
+    <a href="#" onClick="{{ goHome }}" style="font-size:13.5px">{{ t.back }}</a>
+    <h1 style="margin:22px 0 0;font-family:Newsreader,serif;font-size:clamp(32px,5vw,50px);font-weight:400;line-height:1.1;color:var(--ink-hi)">{{ t.faithTitle }}</h1>
+    <p style="margin:20px 0 0;font-size:18px;line-height:1.7;color:var(--lead);text-wrap:pretty">{{ t.faithLead }}</p>
+    <sc-for list="{{ t.faithSections }}" as="s" hint-placeholder-count="3">
+      <div style="margin-top:40px">
+        <h2 style="margin:0 0 10px;font-family:Newsreader,serif;font-size:24px;font-weight:500;color:var(--ink-2)">{{ s.h }}</h2>
+        <p style="margin:0;font-size:16.5px;line-height:1.75;color:var(--muted);text-wrap:pretty">{{ s.p }}</p>
+      </div>
+    </sc-for>
+    <div style="margin-top:44px;padding:22px;border-left:2px solid var(--accent);background:var(--accent-tint);font-family:Newsreader,serif;font-size:20px;font-style:italic;line-height:1.55;color:var(--quote)">{{ t.faithVerse }}</div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:860px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,56px) 88px">
+    <a href="#" onClick="{{ goHome }}" style="font-size:13.5px">{{ t.back }}</a>
+    <p style="margin:22px 0 11px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-tx)">{{ t.navContact }}</p>
+    <h1 style="margin:0;font-family:Newsreader,serif;font-size:clamp(30px,4.6vw,46px);font-weight:400;line-height:1.1;color:var(--ink-hi)">{{ t.contactTitle }}</h1>
+    <p style="margin:16px 0 0;max-width:620px;font-size:17px;line-height:1.65;color:var(--muted);text-wrap:pretty">{{ t.contactLead }}</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(22px,3.5vw,44px);margin-top:36px">
+      <form onSubmit="{{ onSupportSubmit }}" style="display:grid;gap:12px;border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,30px);background:var(--panel)">
+        <input type="text" placeholder="{{ t.supName }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px">
+        <input type="email" placeholder="{{ t.supMail }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px">
+        <textarea rows="6" placeholder="{{ t.supMsg }}" style="padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--ink);font-family:Outfit,sans-serif;font-size:15px;resize:vertical"></textarea>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--muted-2)">
+          <input type="checkbox" style="margin-top:3px;accent-color:#d8b25c">{{ t.consent }}
+        </label>
+        <button type="submit" style="padding:13px 20px;border:none;border-radius:11px;background:var(--accent);color:var(--on-accent);font-family:Outfit,sans-serif;font-size:15px;font-weight:600;cursor:pointer">{{ t.supSend }}</button>
+        <span style="font-size:12.5px;color:var(--faint-2)">{{ supNote }}</span>
+      </form>
+      <div style="display:grid;gap:20px;align-content:start">
+        <sc-for list="{{ contactCards }}" as="c" hint-placeholder-count="3">
+          <div style="border:1px solid var(--line);border-radius:18px;padding:20px;background:var(--panel)">
+            <p style="margin:0 0 7px;font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-tx)">{{ c.k }}</p>
+            <p style="margin:0;font-size:15.5px;line-height:1.6;color:var(--ink)">{{ c.v }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isLegal }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:780px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,56px) 88px">
+    <a href="#" onClick="{{ goHome }}" style="font-size:13.5px">{{ t.back }}</a>
+    <h1 style="margin:22px 0 0;font-family:Newsreader,serif;font-size:clamp(30px,4.6vw,44px);font-weight:400;line-height:1.1;color:var(--ink-hi)">{{ t.imprint }}</h1>
+    <p style="margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--faint)">{{ t.legalNote }}</p>
+    <sc-for list="{{ legalBlocks }}" as="b" hint-placeholder-count="5">
+      <div style="margin-top:34px">
+        <h2 style="margin:0 0 9px;font-family:Newsreader,serif;font-size:22px;font-weight:500;color:var(--ink-2)">{{ b.h }}</h2>
+        <p style="margin:0;font-size:15.5px;line-height:1.75;color:var(--muted);white-space:pre-line;text-wrap:pretty">{{ b.p }}</p>
+      </div>
+    </sc-for>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isPrivacy }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:780px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,56px) 88px">
+    <a href="#" onClick="{{ goHome }}" style="font-size:13.5px">{{ t.back }}</a>
+    <h1 style="margin:22px 0 0;font-family:Newsreader,serif;font-size:clamp(30px,4.6vw,44px);font-weight:400;line-height:1.1;color:var(--ink-hi)">{{ t.privacy }}</h1>
+    <p style="margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--faint)">{{ t.legalNote }}</p>
+    <sc-for list="{{ privacyBlocks }}" as="b" hint-placeholder-count="6">
+      <div style="margin-top:34px">
+        <h2 style="margin:0 0 9px;font-family:Newsreader,serif;font-size:22px;font-weight:500;color:var(--ink-2)">{{ b.h }}</h2>
+        <p style="margin:0;font-size:15.5px;line-height:1.75;color:var(--muted);white-space:pre-line;text-wrap:pretty">{{ b.p }}</p>
+      </div>
+    </sc-for>
+  </main>
+  </sc-if>
+
+  <footer style="border-top:1px solid var(--line);padding:34px clamp(16px,4vw,56px);display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto">
+    <span style="font-family:Newsreader,serif;font-size:16px;color:var(--faint)">schäfchens.de — {{ t.footTag }}</span>
+    <span style="display:flex;gap:18px;font-size:13.5px;color:var(--faint)">
+      <a href="https://blog.schaefchens.de" target="_blank">blog.schaefchens.de</a>
+      <a href="https://github.com/schaefchens" target="_blank">github.com/schaefchens</a>
+      <a href="#" onClick="{{ openFaith }}">{{ t.navFaith }}</a>
+      <a href="#" onClick="{{ openContact }}">{{ t.navContact }}</a>
+      <a href="#" onClick="{{ openLegal }}">{{ t.imprint }}</a>
+      <a href="#" onClick="{{ openPrivacy }}">{{ t.privacy }}</a>
+    </span>
+  </footer>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;de&quot;,&quot;en&quot;],&quot;default&quot;:&quot;de&quot;,&quot;tsType&quot;:&quot;\&quot;de\&quot; | \&quot;en\&quot;&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showComingSoon&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;requirePassword&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Access&quot;}}">
+const ART = {
+  bible: "linear-gradient(150deg,#2c3a6e 0%,#4a5aa0 55%,#8e7bb5 100%)",
+  spirit: "linear-gradient(150deg,#1f4d45 0%,#2f7a63 55%,#c9a24a 100%)",
+  quiz: "linear-gradient(150deg,#5c2340 0%,#93395a 50%,#d8b25c 100%)",
+  soon1: "linear-gradient(150deg,#26304f 0%,#3b4670 100%)",
+  soon2: "linear-gradient(150deg,#3a3350 0%,#55486e 100%)",
+  soon3: "linear-gradient(150deg,#24404f 0%,#356070 100%)"
+};
+
+const ITEMS = [
+  { id:"bibleassistant", kind:"app", glyph:"ב", art:ART.bible,
+    de:{ name:"Bible Assistant", badge:"App", tagline:"Ein Begleiter für Schriftstudium, Notizen und Gebet.",
+      body:"Bible Assistant hilft beim täglichen Lesen: Stellen nachschlagen, Passagen vergleichen, eigene Notizen und Gebetsanliegen festhalten. Alles läuft im Browser oder installiert als App auf dem Gerät — ohne Konto, ohne Werbung.",
+      features:["Schnelle Stellensuche über Bücher und Kapitel","Notizen und Markierungen pro Vers","Gebetsliste mit Erinnerungen","Offline verfügbar nach der Installation"],
+      verse:"Dein Wort ist meines Fußes Leuchte und ein Licht auf meinem Wege.", verseRef:"Psalm 119,105",
+      meta:[["Kategorie","Bibel & Studium"],["Plattformen","Android · iOS · Web"],["Preis","Kostenlos"],["Sprachen","Deutsch, Englisch"],["Stand","Version 1.4"]] },
+    en:{ name:"Bible Assistant", badge:"App", tagline:"A companion for scripture study, notes and prayer.",
+      body:"Bible Assistant supports daily reading: look up passages, compare translations, keep your own notes and prayer requests. It runs in the browser or installed as an app on your device — no account, no ads.",
+      features:["Fast lookup across books and chapters","Notes and highlights per verse","Prayer list with reminders","Available offline once installed"],
+      verse:"Your word is a lamp to my feet and a light to my path.", verseRef:"Psalm 119:105",
+      meta:[["Category","Bible & study"],["Platforms","Android · iOS · Web"],["Price","Free"],["Languages","German, English"],["Release","Version 1.4"]] } },
+
+  { id:"walkinthespirit", kind:"game", glyph:"ר", art:ART.spirit,
+    de:{ name:"Walk in the Spirit", badge:"Spiel", tagline:"Ein ruhiges Wegspiel über die Frucht des Geistes.",
+      body:"Walk in the Spirit führt durch Etappen, die je einer Frucht des Geistes gewidmet sind. Zwischen den Abschnitten stehen kurze Schriftstellen und Fragen zum Nachdenken. Kein Zeitdruck, keine Punktejagd.",
+      features:["Neun Etappen, eine je Frucht des Geistes","Kurze Impulse aus der Schrift","Fortschritt bleibt lokal gespeichert","Spielbar mit einer Hand"],
+      verse:"Die Frucht des Geistes aber ist Liebe, Freude, Frieden.", verseRef:"Galater 5,22",
+      meta:[["Kategorie","Spiel · Andacht"],["Plattformen","Android · iOS · Web"],["Preis","Kostenlos"],["Spieldauer","5–15 Min pro Etappe"],["Stand","Version 1.1"]] },
+    en:{ name:"Walk in the Spirit", badge:"Game", tagline:"A quiet journey game about the fruit of the Spirit.",
+      body:"Walk in the Spirit leads through stages, each devoted to one fruit of the Spirit. Between sections there are short passages and questions to sit with. No timers, no score chasing.",
+      features:["Nine stages, one per fruit of the Spirit","Short prompts from scripture","Progress stored locally","Playable one-handed"],
+      verse:"But the fruit of the Spirit is love, joy, peace.", verseRef:"Galatians 5:22",
+      meta:[["Category","Game · devotional"],["Platforms","Android · iOS · Web"],["Price","Free"],["Session","5–15 min per stage"],["Release","Version 1.1"]] } },
+
+  { id:"biblequiz", kind:"game", glyph:"ק", art:ART.quiz,
+    de:{ name:"Bible Quiz", badge:"Spiel", tagline:"Fragen quer durch Altes und Neues Testament.",
+      body:"Bible Quiz stellt Fragen zu Personen, Orten und Ereignissen der Schrift — nach Buch, Thema oder Schwierigkeit sortiert. Jede Antwort verweist auf die Stelle, an der sie nachzulesen ist.",
+      features:["Fragen nach Buch und Thema","Drei Schwierigkeitsstufen","Stellenangabe zu jeder Antwort","Duell-Modus für zwei Spieler an einem Gerät"],
+      verse:"Forschet in der Schrift.", verseRef:"Johannes 5,39",
+      meta:[["Kategorie","Spiel · Wissen"],["Plattformen","Android · iOS · Web"],["Preis","Kostenlos"],["Umfang","über 800 Fragen"],["Stand","Version 2.0"]] },
+    en:{ name:"Bible Quiz", badge:"Game", tagline:"Questions across the Old and New Testament.",
+      body:"Bible Quiz asks about people, places and events in scripture — sorted by book, topic or difficulty. Every answer points back to the passage it came from.",
+      features:["Questions by book and topic","Three difficulty levels","Scripture reference with every answer","Duel mode for two players on one device"],
+      verse:"You search the Scriptures.", verseRef:"John 5:39",
+      meta:[["Category","Game · knowledge"],["Platforms","Android · iOS · Web"],["Price","Free"],["Content","800+ questions"],["Release","Version 2.0"]] } },
+
+  { id:"soon-app", kind:"app", soon:true, glyph:"ת", art:ART.soon1,
+    de:{ name:"In Arbeit", badge:"Bald", tagline:"Eine weitere App ist in Vorbereitung.", body:"", features:[], verse:"", verseRef:"", meta:[] },
+    en:{ name:"In progress", badge:"Soon", tagline:"Another app is in preparation.", body:"", features:[], verse:"", verseRef:"", meta:[] } },
+  { id:"soon-game", kind:"game", soon:true, glyph:"ש", art:ART.soon2,
+    de:{ name:"In Arbeit", badge:"Bald", tagline:"Ein weiteres Spiel ist in Vorbereitung.", body:"", features:[], verse:"", verseRef:"", meta:[] },
+    en:{ name:"In progress", badge:"Soon", tagline:"Another game is in preparation.", body:"", features:[], verse:"", verseRef:"", meta:[] } },
+  { id:"soon-game-2", kind:"game", soon:true, glyph:"מ", art:ART.soon3,
+    de:{ name:"In Arbeit", badge:"Bald", tagline:"Ein weiteres Spiel ist in Vorbereitung.", body:"", features:[], verse:"", verseRef:"", meta:[] },
+    en:{ name:"In progress", badge:"Soon", tagline:"Another game is in preparation.", body:"", features:[], verse:"", verseRef:"", meta:[] } }
+];
+
+const STORE = {
+  bibleassistant:{ android:"https://play.google.com/store/apps/details?id=de.schaefchens.bibleassistant", ios:"https://apps.apple.com/app/bible-assistant", web:"https://bibleassistant.apps.schaefchens.de/?install=1", github:"https://github.com/schaefchens/bible-assistant" },
+  walkinthespirit:{ android:"https://play.google.com/store/apps/details?id=de.schaefchens.walkinthespirit", ios:"https://apps.apple.com/app/walk-in-the-spirit", web:"https://walkinthespirit.games.schaefchens.de/?install=1", github:"https://github.com/schaefchens/walk-in-the-spirit" },
+  biblequiz:{ android:"https://play.google.com/store/apps/details?id=de.schaefchens.biblequiz", ios:"https://apps.apple.com/app/bible-quiz", web:"https://biblequiz.games.schaefchens.de/?install=1", github:"https://github.com/schaefchens/bible-quiz" }
+};
+
+const T = {
+  de:{ kicker:"Apps und Spiele aus einer Hand", heroTitle:"Software, die zur Schrift hinführt.",
+    heroSub:"Kleine Apps und Spiele rund um Bibel, Gebet und Glauben — für Android, iOS und direkt im Browser installierbar.",
+    chipFree:"Alles kostenlos", chipPlatforms:"Android · iOS · PWA",
+    navApps:"Apps", navGames:"Spiele", navBlog:"Blog ↗", navFaith:"Glaube",
+    appsTitle:"Apps", appsNote:"Werkzeuge für Schrift, Gebet und Alltag",
+    gamesTitle:"Spiele", gamesNote:"Zum Nachdenken, nicht zum Wetteifern",
+    aboutKicker:"Über Schäfchens", aboutTitle:"Ein Entwickler, der glaubt.",
+    aboutBody:"Hinter schäfchens.de steht eine Person: ein Christ, der Software schreibt. Was hier entsteht, ist keine Firma und kein Produktkatalog, sondern Arbeit an Werkzeugen, die beim Lesen der Schrift, beim Gebet und im Alltag helfen.",
+    aboutBody2:"Alles ist kostenlos, ohne Werbung und ohne Nutzerkonto. Wer Fragen hat oder Fehler findet, darf sich melden — und im Blog stehen längere Texte zu Glaube und Schrift.",
+    aboutFacts:["Bekennender Christ, Bibel als Maßstab","Alle Apps und Spiele kostenlos","Keine Werbung, keine Nutzerkonten","Daten bleiben auf dem Gerät","Entwickelt in Deutschland"],
+    gateQuestion:"Wer ist der Herr?", gatePlaceholder:"Antwort", gateSubmit:"Eintreten",
+    gateDenied:"Dieser Ort ist nicht für dich.", gateIntro:"Jedem der dies weiß ist der Zugang erlaubt.", gateRetry:"Noch einmal versuchen",
+    navContact:"Kontakt", privacy:"Datenschutz",
+    contactTitle:"Kontakt aufnehmen", contactLead:"Fragen zu einer App, Hinweise auf Fehler, Anfragen zur kommerziellen Nutzung oder ein Wort der Ermutigung — alles willkommen.",
+    contactTopics:["Anliegen wählen","Frage zu einer App oder einem Spiel","Fehlermeldung","Lizenz / kommerzielle Nutzung","Sonstiges"],
+    consent:"Ich bin damit einverstanden, dass meine Angaben zur Bearbeitung der Anfrage gespeichert werden.",
+    legalNote:"Platzhalter — bitte vor Veröffentlichung mit den echten Angaben ersetzen und rechtlich prüfen lassen.",
+    legalBlocks:[
+      {h:"Angaben gemäß § 5 DDG", p:"[Vor- und Nachname]\n[Straße und Hausnummer]\n[PLZ Ort]\nDeutschland"},
+      {h:"Kontakt", p:"E-Mail: [kontakt@schaefchens.de]\nTelefon: [optional]"},
+      {h:"Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV", p:"[Vor- und Nachname], Adresse wie oben"},
+      {h:"Umsatzsteuer", p:"[USt-IdNr. gemäß § 27a UStG] oder: Kleinunternehmer gemäß § 19 UStG, es wird keine Umsatzsteuer ausgewiesen."},
+      {h:"Online-Streitbeilegung und Verbraucherschlichtung", p:"Zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit."},
+      {h:"Haftung für Inhalte und Links", p:"Die Inhalte dieser Seiten werden mit Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität kann keine Gewähr übernommen werden. Für Inhalte verlinkter externer Seiten sind deren Betreiber verantwortlich; zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar."},
+      {h:"Urheberrecht und Lizenz", p:"Texte und Gestaltung dieser Seite sind urheberrechtlich geschützt. Die veröffentlichten Apps und Spiele stehen unter der PolyForm Noncommercial License 1.0.0; der Quellcode ist auf github.com/schaefchens einsehbar."}
+    ],
+    privacyBlocks:[
+      {h:"Verantwortlicher", p:"[Vor- und Nachname], [Adresse], E-Mail: [kontakt@schaefchens.de]"},
+      {h:"Zweck und Rechtsgrundlage", p:"Diese Website wird bereitgestellt, um über Apps und Spiele zu informieren. Rechtsgrundlage für den Betrieb ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse), für Kontaktanfragen Art. 6 Abs. 1 lit. a und b DSGVO."},
+      {h:"Server-Logfiles", p:"Beim Aufruf werden technisch notwendige Daten verarbeitet: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browsertyp und Betriebssystem. Die Daten werden nach [7] Tagen gelöscht."},
+      {h:"Kontaktformular", p:"Angaben aus dem Formular werden ausschließlich zur Bearbeitung der Anfrage verwendet und nach Abschluss gelöscht, sofern keine gesetzlichen Aufbewahrungsfristen entgegenstehen. Eine Weitergabe an Dritte erfolgt nicht."},
+      {h:"Cookies und Reichweitenmessung", p:"Es werden keine Tracking-Cookies und keine Analysedienste eingesetzt. Gespeichert wird lediglich die gewählte Sprache und das Farbschema, lokal im Browser."},
+      {h:"Apps und Spiele", p:"Die Anwendungen benötigen kein Nutzerkonto. Fortschritt, Notizen und Einstellungen bleiben auf dem Gerät und werden nicht an einen Server übertragen."},
+      {h:"Ihre Rechte", p:"Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht, eine erteilte Einwilligung zu widerrufen. Beschwerden können Sie an die zuständige Aufsichtsbehörde richten: [Landesdatenschutzbehörde]."}
+    ],
+    licKicker:"Lizenz & Quellcode", licTitle:"PolyForm Non-Commercial",
+    licBody:"Apps und Spiele von schäfchens.de werden unter der PolyForm Noncommercial License 1.0.0 veröffentlicht. Der Quellcode liegt offen auf GitHub: nutzen, lesen, anpassen und weitergeben ist für nicht-kommerzielle Zwecke erlaubt.",
+    licCta:"Lizenztext lesen", licPoints:["Nutzung für private, gemeinnützige und kirchliche Zwecke erlaubt","Kommerzielle Nutzung nur mit Absprache","Quellcode je Projekt öffentlich auf GitHub","Änderungen und Forks unter derselben Lizenz","Fehlerberichte und Beiträge willkommen"],
+    sourceCta:"Quellcode auf GitHub", licenseLine:"PolyForm Noncommercial 1.0.0",
+    supKicker:"Support", supTitle:"Frage zu dieser Anwendung?", supBody:"Fehler, Wünsche oder eine Frage zur Bedienung: kurze Nachricht genügt. Antwort kommt per E-Mail, meist innerhalb weniger Tage.",
+    supName:"Name", supMail:"E-Mail", supMsg:"Nachricht", supSend:"Nachricht senden", supSent:"Danke — Nachricht notiert (Mockup, wird nicht gesendet).", supHint:"Alternativ ein Issue auf GitHub anlegen.",
+    faithKicker:"Über den Glauben", faithTitle:"Warum es diese Apps gibt.",
+    faithBody:"Hinter jedem Projekt steht dieselbe Überzeugung: dass Gottes Wort Menschen verändert. Diese Seite erklärt, was ich glaube und wie es meine Arbeit prägt.",
+    faithCta:"Mehr lesen", blogCta:"Zum Blog",
+    faithLead:"Diese Seiten sind keine Werbefläche. Sie sollen erklären, aus welcher Überzeugung die Apps und Spiele auf schäfchens.de entstehen.",
+    faithSections:[ {h:"Die Schrift", p:"Die Bibel ist Maßstab und Quelle. Jedes Projekt soll zu ihr hinführen, nicht von ihr ablenken — deshalb steht in jeder App der Text im Mittelpunkt und nicht die Funktion."},
+      {h:"Der Name", p:"Schäfchen — kleine Lämmer. Der Name erinnert daran, dass es einen Hirten gibt und wir nicht allein unterwegs sind. Er prägt auch den Ton: ruhig, ohne Druck, ohne Punktejagd."},
+      {h:"Die Arbeit", p:"Alle Anwendungen sind kostenlos, ohne Werbung und ohne Nutzerkonto. Was auf dem Gerät gespeichert wird, bleibt dort."} ],
+    faithVerse:"Meine Schafe hören meine Stimme, und ich kenne sie, und sie folgen mir. (Johannes 10,27)",
+    back:"← Zurück zur Übersicht", about:"Über diese Anwendung", features:"Funktionen", info:"Informationen", more:"Weitere Projekte",
+    footTag:"Apps und Spiele rund um die Schrift", imprint:"Impressum",
+    instAndroid:["Google Play","Für Android"], instIos:["App Store","Für iPhone & iPad"], instWeb:["Im Browser installieren","PWA · Web"],
+    soonLine:"Noch nicht verfügbar" },
+  en:{ kicker:"Apps and games from one workshop", heroTitle:"Software that points back to scripture.",
+    heroSub:"Small apps and games around the Bible, prayer and faith — for Android, iOS, and installable straight from the browser.",
+    chipFree:"All free", chipPlatforms:"Android · iOS · PWA",
+    navApps:"Apps", navGames:"Games", navBlog:"Blog ↗", navFaith:"Faith",
+    appsTitle:"Apps", appsNote:"Tools for scripture, prayer and daily life",
+    gamesTitle:"Games", gamesNote:"For reflection, not for competition",
+    aboutKicker:"About Schäfchens", aboutTitle:"One developer, who believes.",
+    aboutBody:"Behind schäfchens.de stands one person: a Christian who writes software. What is built here is not a company or a product catalogue, but work on tools that help with reading scripture, with prayer and with daily life.",
+    aboutBody2:"Everything is free, without ads and without a user account. Questions and bug reports are welcome — and the blog carries longer texts on faith and scripture.",
+    aboutFacts:["Confessing Christian, scripture as the measure","Every app and game is free","No ads, no user accounts","Data stays on the device","Built in Germany"],
+    gateQuestion:"Who is the Lord?", gatePlaceholder:"Answer", gateSubmit:"Enter",
+    gateDenied:"This place is not for you.", gateIntro:"Access is granted to everyone who knows this.", gateRetry:"Try again",
+    navContact:"Contact", privacy:"Privacy",
+    contactTitle:"Get in touch", contactLead:"Questions about an app, bug reports, requests about commercial use or a word of encouragement — all welcome.",
+    contactTopics:["Choose a topic","Question about an app or game","Bug report","License / commercial use","Something else"],
+    consent:"I agree that my details may be stored in order to process this enquiry.",
+    legalNote:"Placeholder — replace with the real details and have them checked legally before publishing.",
+    legalBlocks:[
+      {h:"Details pursuant to § 5 DDG", p:"[First and last name]\n[Street and number]\n[Postcode, town]\nGermany"},
+      {h:"Contact", p:"Email: [kontakt@schaefchens.de]\nPhone: [optional]"},
+      {h:"Responsible for content under § 18 (2) MStV", p:"[First and last name], address as above"},
+      {h:"VAT", p:"[VAT ID under § 27a UStG] or: small business under § 19 UStG, no VAT is charged."},
+      {h:"Online dispute resolution", p:"We are neither obliged nor willing to take part in dispute resolution proceedings before a consumer arbitration board."},
+      {h:"Liability for content and links", p:"The content of these pages is compiled with care. No guarantee can be given for accuracy, completeness or timeliness. The operators of linked external sites are responsible for their content; no legal violations were apparent at the time of linking."},
+      {h:"Copyright and license", p:"Texts and design of this site are protected by copyright. The published apps and games are released under the PolyForm Noncommercial License 1.0.0; the source is available at github.com/schaefchens."}
+    ],
+    privacyBlocks:[
+      {h:"Controller", p:"[First and last name], [address], email: [kontakt@schaefchens.de]"},
+      {h:"Purpose and legal basis", p:"This website informs about apps and games. The legal basis for operating it is Art. 6(1)(f) GDPR (legitimate interest); for enquiries Art. 6(1)(a) and (b) GDPR."},
+      {h:"Server log files", p:"Technically necessary data is processed on access: IP address, date and time, page requested, browser type and operating system. The data is deleted after [7] days."},
+      {h:"Contact form", p:"Details from the form are used solely to handle the enquiry and are deleted afterwards unless statutory retention periods apply. Nothing is passed on to third parties."},
+      {h:"Cookies and analytics", p:"No tracking cookies and no analytics services are used. Only the chosen language and colour scheme are stored locally in the browser."},
+      {h:"Apps and games", p:"The applications require no user account. Progress, notes and settings stay on the device and are not transmitted to a server."},
+      {h:"Your rights", p:"You have the right to access, rectification, erasure, restriction of processing, data portability and objection, and the right to withdraw consent. Complaints can be addressed to the competent supervisory authority: [state data protection authority]."}
+    ],
+    licKicker:"License & source", licTitle:"PolyForm Non-Commercial",
+    licBody:"Apps and games from schäfchens.de are released under the PolyForm Noncommercial License 1.0.0. The source is open on GitHub: reading, using, adapting and sharing is permitted for non-commercial purposes.",
+    licCta:"Read the license", licPoints:["Free for personal, charitable and church use","Commercial use by arrangement only","Source for each project public on GitHub","Changes and forks under the same license","Bug reports and contributions welcome"],
+    sourceCta:"Source on GitHub", licenseLine:"PolyForm Noncommercial 1.0.0",
+    supKicker:"Support", supTitle:"A question about this application?", supBody:"Bugs, requests or a question about how something works: a short message is enough. Replies come by email, usually within a few days.",
+    supName:"Name", supMail:"Email", supMsg:"Message", supSend:"Send message", supSent:"Thank you — message noted (mockup, nothing is sent).", supHint:"Or open an issue on GitHub.",
+    faithKicker:"About the faith", faithTitle:"Why these apps exist.",
+    faithBody:"The same conviction stands behind every project: that God's word changes people. This page explains what I believe and how it shapes the work.",
+    faithCta:"Read more", blogCta:"Visit the blog",
+    faithLead:"These pages are not a marketing surface. They explain the conviction the apps and games on schäfchens.de come from.",
+    faithSections:[ {h:"Scripture", p:"The Bible is both measure and source. Every project should lead toward it rather than away from it — which is why the text, not the feature set, sits at the centre of each app."},
+      {h:"The name", p:"Schäfchen — little lambs. The name is a reminder that there is a shepherd and that we are not on the road alone. It also sets the tone: calm, unhurried, no score chasing."},
+      {h:"The work", p:"Every application is free, without ads and without a user account. Whatever is stored on the device stays there."} ],
+    faithVerse:"My sheep listen to my voice; I know them, and they follow me. (John 10:27)",
+    back:"← Back to overview", about:"About this application", features:"Features", info:"Information", more:"Other projects",
+    footTag:"Apps and games around scripture", imprint:"Imprint",
+    instAndroid:["Google Play","For Android"], instIos:["App Store","For iPhone & iPad"], instWeb:["Install in browser","PWA · Web"],
+    soonLine:"Not yet available" }
+};
+
+class Component extends DCLogic {
+  state = { lang: "de", view: "home", current: "bibleassistant", sent: false, locked: true, gateError: false, theme: (typeof localStorage !== "undefined" && localStorage.getItem("sch-theme")) || "os", osDark: true };
+
+  componentDidMount() {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    this.setState({ osDark: mq.matches });
+    this._mq = (e) => this.setState({ osDark: e.matches });
+    mq.addEventListener("change", this._mq);
+  }
+  componentWillUnmount() { if (this._mq) window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", this._mq); }
+  setTheme = (t) => () => { try { localStorage.setItem("sch-theme", t); } catch (e) {} this.setState({ theme: t }); };
+
+  go = (view, current) => (e) => { if (e) e.preventDefault(); this.setState({ view, current: current || this.state.current }); window.scrollTo(0, 0); };
+  jump = (id) => (e) => {
+    e.preventDefault();
+    if (this.state.view !== "home") { this.setState({ view: "home" }); setTimeout(() => { const el = document.getElementById(id); if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 80); }, 60); return; }
+    const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+  };
+
+  card(it, t) {
+    const c = it[this.state.lang];
+    return { id: it.id, glyph: it.glyph, art: it.art, name: c.name, badge: c.badge, tagline: c.tagline,
+      platformLine: it.soon ? t.soonLine : "Android · iOS · PWA",
+      onOpen: it.soon ? (e) => e.preventDefault() : this.go("detail", it.id) };
+  }
+
+  onGate = (e) => {
+    e.preventDefault();
+    const v = (e.target.answer.value || "").trim().toLowerCase();
+    if (v === "jesus") this.setState({ locked: false, gateError: false });
+    else this.setState({ gateError: true });
+  };
+
+  blessingIndex = Math.floor(Math.random() * 3);
+
+  renderVals() {
+    const theme = this.state.theme;
+    const isLight = theme === "light" || (theme === "os" && !this.state.osDark);
+    const LIGHT = {
+      "--bg":"#f4ebd8","--bg-top":"#f6e4c3","--ink":"#3a352c","--ink-hi":"#201d16","--ink-2":"#26231b",
+      "--nav":"#55503f","--lead":"#4f4939","--muted":"#5e5749","--muted-2":"#6b6455","--faint":"#6f6858","--faint-2":"#77705f","--quote":"#3d3729",
+      "--accent":"#d8b25c","--accent-tx":"#8a6416","--accent-hi":"#6f4f10","--on-accent":"#241c08",
+      "--line":"rgba(70,56,28,.22)","--line-soft":"rgba(70,56,28,.16)","--border":"rgba(70,56,28,.3)",
+      "--panel":"#ffffff","--panel-hi":"#fdf3df",
+      "--header-bg":"rgba(245,236,218,.9)","--input-bg":"#fffdf7","--on-accent-inv":"#faf4e8",
+      "--accent-br":"rgba(138,100,22,.45)","--accent-ln":"rgba(138,100,22,.26)","--accent-tint":"rgba(184,135,40,.1)"
+    };
+    const locked = (this.props.requirePassword ?? true) && this.state.locked;
+    const themeVars = isLight ? Object.keys(LIGHT).map(k => k + ":" + LIGHT[k]).join(";") + ";" : "";
+    if (typeof document !== "undefined") document.body.style.background = isLight ? LIGHT["--bg"] : "#0f1426";
+
+    const lang = this.state.langTouched ? this.state.lang : (this.props.lang ?? this.state.lang);
+    const t = T[lang] || T.de;
+    const view = this.state.view;
+    const showSoon = this.props.showComingSoon ?? true;
+    const pool = showSoon ? ITEMS : ITEMS.filter(i => !i.soon);
+    const item = ITEMS.find(i => i.id === this.state.current) || ITEMS[0];
+    const c = item[lang];
+    const s = STORE[item.id] || {};
+
+    return {
+      isGate: locked, unlocked: !locked, gateError: this.state.gateError, gateAsk: !this.state.gateError, onGate: this.onGate,
+      resetGate: () => this.setState({ gateError: false }),
+      toggleLangGate: () => this.setState({ lang: lang === "de" ? "en" : "de", langTouched: true }),
+      blessing: (lang === "de"
+        ? ["Gott segne dich", "Shalom Shalom", "Gnade und Friede mit dir"]
+        : ["God bless you", "Shalom Shalom", "Grace and peace to you"])[this.blessingIndex],
+      themeVars,
+      themeBtns: [
+        { key:"os", icon:"◐", title:"System" },
+        { key:"light", icon:"☀", title: lang === "de" ? "Hell" : "Light" },
+        { key:"dark", icon:"☾", title: lang === "de" ? "Dunkel" : "Dark" }
+      ].map(b => ({
+        icon:b.icon, title:b.title, onClick:this.setTheme(b.key),
+        bg: theme === b.key ? "var(--accent)" : "transparent",
+        fg: theme === b.key ? "var(--on-accent)" : "var(--faint)"
+      })),
+      t, isHome: view === "home", isDetail: view === "detail", isFaith: view === "faith",
+      langLabel: lang === "de" ? "EN" : "DE",
+      toggleLang: () => this.setState({ lang: lang === "de" ? "en" : "de", langTouched: true }),
+      goHome: this.go("home"), openFaith: this.go("faith"),
+      openContact: this.go("contact"), openLegal: this.go("legal"), openPrivacy: this.go("privacy"),
+      isContact: view === "contact", isLegal: view === "legal", isPrivacy: view === "privacy",
+      navContact: t.navContact,
+      legalBlocks: t.legalBlocks, privacyBlocks: t.privacyBlocks,
+      contactCards: [
+        { k: lang === "de" ? "E-Mail" : "Email", v: "kontakt@schaefchens.de" },
+        { k: lang === "de" ? "Quellcode" : "Source", v: "github.com/schaefchens" },
+        { k: lang === "de" ? "Antwortzeit" : "Response time", v: lang === "de" ? "meist innerhalb weniger Tage" : "usually within a few days" }
+      ],
+      licKicker: t.licKicker, licTitle: t.licTitle, licBody: t.licBody, licCta: t.licCta, licPoints: t.licPoints,
+      supNote: this.state.sent ? t.supSent : t.supHint,
+      onSupportSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      aboutKicker: t.aboutKicker, aboutTitle: t.aboutTitle, aboutBody: t.aboutBody, aboutBody2: t.aboutBody2, aboutFacts: t.aboutFacts,
+      navApps: t.navApps, navGames: t.navGames, navBlog: t.navBlog, navFaith: t.navFaith,
+      jumpApps: this.jump("apps"), jumpGames: this.jump("games"),
+      appsTitle: t.appsTitle, appsNote: t.appsNote, gamesTitle: t.gamesTitle, gamesNote: t.gamesNote,
+      appItems: pool.filter(i => i.kind === "app").map(i => this.card(i, t)),
+      gameItems: pool.filter(i => i.kind === "game").map(i => this.card(i, t)),
+      d: {
+        glyph: item.glyph, art: item.art, name: c.name, badge: c.badge, tagline: c.tagline, body: c.body,
+        verse: c.verse, verseRef: c.verseRef, features: c.features, github: s.github || "https://github.com/schaefchens",
+        meta: (c.meta || []).map(m => ({ k: m[0], v: m[1] })),
+        shots: [1, 2, 3, 4].map(n => (lang === "de" ? "Screenshot " : "Screenshot ") + n + (lang === "de" ? " — Platzhalter" : " — placeholder")),
+        installs: [
+          { icon: "▲", small: t.instIos[1], label: t.instIos[0], href: s.ios || "#",
+            bg: isLight ? "#26231b" : "#f3eee2", fg: isLight ? "#faf4e8" : "#141a2e", border: isLight ? "#26231b" : "#f3eee2" },
+          { icon: "◉", small: t.instAndroid[1], label: t.instAndroid[0], href: s.android || "#",
+            bg: isLight ? "#ffffff" : "rgba(255,255,255,.06)", fg: isLight ? "#3a352c" : "#e9e3d6", border: isLight ? "rgba(70,56,28,.22)" : "rgba(233,227,214,.22)" },
+          { icon: "✦", small: t.instWeb[1], label: t.instWeb[0], href: s.web || "#",
+            bg: isLight ? "#7d5a12" : "#d8b25c", fg: isLight ? "#fff8e8" : "#141a2e", border: isLight ? "#7d5a12" : "#d8b25c" }
+        ]
+      },
+      related: ITEMS.filter(i => i.id !== item.id && !i.soon).map(i => this.card(i, t))
+    };
+  }
+}
+</script>
+</body>
+</html>

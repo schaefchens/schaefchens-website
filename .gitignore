@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# Credentials — never commit.
+sftp.env
+server/inc/secrets.php
+
+# Generated at deploy time from deploy/htaccess-root.
+.htaccess.built
+
+# tsc -b incremental state.
+*.tsbuildinfo

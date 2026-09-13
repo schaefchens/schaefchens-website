@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>schäfchens.de — Apps und Spiele rund um die Schrift</title>
+    <meta name="description" content="Kleine Apps und Spiele rund um Bibel, Gebet und Glauben." />
+    <!-- The site sits behind a gate; there is nothing here for a crawler. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0f1426" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- The two faces that render above the fold. Everything else can wait for
+         the stylesheet. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin />
+
+    <script>
+      /* Runs before first paint: without it the page renders dark for a frame
+         and then flips, for anyone who chose light. Mirrors src/lib/theme.ts —
+         change the key or the attribute in one place and you must change both. */
+      try {
+        var t = localStorage.getItem('sch-theme')
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t)
+        var l = localStorage.getItem('sch-lang')
+        if (l === 'de' || l === 'en') document.documentElement.lang = l
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

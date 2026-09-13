@@ -1,0 +1,11 @@
+# Server-side only — never served over HTTP.
+#
+# /inc holds secrets.php (the cookie signing key and the accepted answers) and
+# state/ (rate-limit counters and the contact-message log). /shell holds the built
+# SPA shell, which index.php reads from disk after the gate passes.
+#
+# Apache's authz rules govern HTTP requests, not the filesystem, so PHP can
+# still read every one of these.
+
+Require all denied
+Options -Indexes

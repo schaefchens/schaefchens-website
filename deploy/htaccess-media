@@ -1,0 +1,8 @@
+# App icons and screenshots. Not content-hashed, so they revalidate weekly
+# rather than being pinned forever — a replaced screenshot keeps its name.
+#
+# Guarded by the cookie rule in the root .htaccess.
+
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=604800"
+</IfModule>

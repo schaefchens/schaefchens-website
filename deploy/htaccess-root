@@ -1,0 +1,64 @@
+# Web root of schaefchens.de.
+#
+# Deployed by scripts/deploy.sh, which substitutes __ASSET_KEY__ with
+# GATE_ASSET_KEY from server/inc/secrets.php. Edit this template in the repo,
+# never the copy on the server — the next deploy overwrites it.
+
+DirectoryIndex index.php
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # The gate, at the Apache level.
+  #
+  # /assets holds the JS and CSS bundle — every word of the site's content is in
+  # there — and /media the app icons and screenshots. The cookie is minted only
+  # by a correct answer (see lib/gate.php). Apache cannot verify the HMAC on the
+  # session cookie, so this checks the fixed key instead; what it buys is native
+  # static serving for the bundle rather than proxying it through PHP.
+  #
+  # 403 rather than a redirect: these are subresource requests, and a redirected
+  # script tag fails in a way nobody can debug.
+  RewriteCond %{HTTP_COOKIE} !(^|;[[:space:]]*)sch_k=__ASSET_KEY__(;|$)
+  RewriteRule ^(assets|media)/ - [F,L]
+
+  # Everything that is not a real file is a route: the front controller gates it
+  # and then prints the SPA shell, so deep links survive a reload.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  # text/javascript matters: that is the Content-Type this host sends for .js,
+  # and AddOutputFilterByType matches the response type. Listing only
+  # application/javascript leaves the main bundle uncompressed — 300 KB instead
+  # of 96 KB, with no visible symptom. (Learned on biblequiz.)
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE text/javascript application/javascript
+  AddOutputFilterByType DEFLATE application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Self-hosted and stable, but not content-hashed — a month is a fair trade.
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # Not hashed either, and cheap to revalidate.
+  <FilesMatch "^(avatar\.webp|favicon-32\.png|apple-touch-icon\.png)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+# The gate's own responses must never be cached anywhere.
+<Files "index.php">
+  <IfModule mod_headers.c>
+    Header always set Cache-Control "no-store, must-revalidate"
+  </IfModule>
+</Files>

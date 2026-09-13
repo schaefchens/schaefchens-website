@@ -1,0 +1,110 @@
+/* Design tokens, lifted verbatim from claude-design/Schaefchens.dc.html.
+ *
+ * Dark is the base palette; light is an override. Three theme states:
+ *   no data-theme attribute  → follow the OS (the "os" setting)
+ *   data-theme="light"       → light, whatever the OS says
+ *   data-theme="dark"        → dark, whatever the OS says
+ *
+ * Every token is defined on bare :root, so a colour never exists only inside a
+ * media query — that is what keeps the OS-light and explicit-light paths from
+ * drifting apart when someone edits one and forgets the other. */
+
+:root {
+  --bg: #0f1426;
+  --bg-top: #1b2444;
+  --ink: #e9e3d6;
+  --ink-hi: #f6f1e6;
+  --ink-2: #f3eee2;
+  --nav: #cfc7b6;
+  --lead: #c2baa8;
+  --muted: #b6ae9d;
+  --muted-2: #a29a8a;
+  --faint: #8d8575;
+  --faint-2: #7e7768;
+  --quote: #e6dcc3;
+  --accent: #d8b25c;
+  --accent-tx: #d8b25c;
+  --accent-hi: #f0cf86;
+  --on-accent: #141a2e;
+  --line: rgba(233, 227, 214, 0.11);
+  --line-soft: rgba(233, 227, 214, 0.08);
+  --border: rgba(233, 227, 214, 0.2);
+  --panel: rgba(255, 255, 255, 0.028);
+  --panel-hi: rgba(255, 255, 255, 0.05);
+  --header-bg: rgba(15, 20, 38, 0.82);
+  --input-bg: rgba(15, 20, 38, 0.5);
+  --accent-br: rgba(216, 178, 92, 0.48);
+  --accent-ln: rgba(216, 178, 92, 0.24);
+  --accent-tint: rgba(216, 178, 92, 0.08);
+  --shot-shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+/* The light palette is written out twice on purpose: once for "follow the OS"
+ * and once for the explicit toggle. Plain CSS has no way to share a token block
+ * between a media query and an attribute selector, so if you edit one, edit the
+ * other. `npm run check:tokens` fails the build when they drift apart. */
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f4ebd8;
+    --bg-top: #f6e4c3;
+    --ink: #3a352c;
+    --ink-hi: #201d16;
+    --ink-2: #26231b;
+    --nav: #55503f;
+    --lead: #4f4939;
+    --muted: #5e5749;
+    --muted-2: #6b6455;
+    --faint: #6f6858;
+    --faint-2: #77705f;
+    --quote: #3d3729;
+    --accent: #d8b25c;
+    --accent-tx: #8a6416;
+    --accent-hi: #6f4f10;
+    --on-accent: #241c08;
+    --line: rgba(70, 56, 28, 0.22);
+    --line-soft: rgba(70, 56, 28, 0.16);
+    --border: rgba(70, 56, 28, 0.3);
+    --panel: #ffffff;
+    --panel-hi: #fdf3df;
+    --header-bg: rgba(245, 236, 218, 0.9);
+    --input-bg: #fffdf7;
+    --accent-br: rgba(138, 100, 22, 0.45);
+    --accent-ln: rgba(138, 100, 22, 0.26);
+    --accent-tint: rgba(184, 135, 40, 0.1);
+    --shot-shadow: rgba(70, 56, 28, 0.22);
+    color-scheme: light;
+  }
+}
+
+:root[data-theme='light'] {
+  --bg: #f4ebd8;
+  --bg-top: #f6e4c3;
+  --ink: #3a352c;
+  --ink-hi: #201d16;
+  --ink-2: #26231b;
+  --nav: #55503f;
+  --lead: #4f4939;
+  --muted: #5e5749;
+  --muted-2: #6b6455;
+  --faint: #6f6858;
+  --faint-2: #77705f;
+  --quote: #3d3729;
+  --accent: #d8b25c;
+  --accent-tx: #8a6416;
+  --accent-hi: #6f4f10;
+  --on-accent: #241c08;
+  --line: rgba(70, 56, 28, 0.22);
+  --line-soft: rgba(70, 56, 28, 0.16);
+  --border: rgba(70, 56, 28, 0.3);
+  --panel: #ffffff;
+  --panel-hi: #fdf3df;
+  --header-bg: rgba(245, 236, 218, 0.9);
+  --input-bg: #fffdf7;
+  --accent-br: rgba(138, 100, 22, 0.45);
+  --accent-ln: rgba(138, 100, 22, 0.26);
+  --accent-tint: rgba(184, 135, 40, 0.1);
+  --shot-shadow: rgba(70, 56, 28, 0.22);
+  color-scheme: light;
+}
