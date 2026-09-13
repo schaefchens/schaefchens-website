@@ -67,6 +67,25 @@ export const IconBlog = () => (
   </svg>
 )
 
+/** The hero ornament: a thin Latin cross, drawn as one filled outline so the
+ *  bars keep an even hairline weight at every size. Purely decorative — the
+ *  heading beneath it carries the meaning, so it is hidden from assistive
+ *  technology rather than given a label nobody needs read aloud. */
+export const HeroCross = () => (
+  <svg
+    className="hero__cross"
+    viewBox="0 0 56 84"
+    role="presentation"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M26 0 h4 v22 h18 v4 h-18 v58 h-4 v-58 h-18 v-4 h18 z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
 /* --- flags ---------------------------------------------------------------- */
 
 /** German tricolour. */

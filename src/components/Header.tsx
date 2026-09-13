@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   FlagDE, FlagEN, IconApps, IconBlog, IconContact, IconFaith, IconGames,
 } from './Icons'
+import { SHOW_FAITH } from '../content/features'
 import { useApp } from '../lib/state'
 import type { Theme } from '../lib/theme'
 
@@ -56,10 +57,12 @@ export function Header() {
           <IconGames />
           {t.navGames}
         </a>
-        <Link to="/glaube">
-          <IconFaith />
-          {t.navFaith}
-        </Link>
+        {SHOW_FAITH && (
+          <Link to="/glaube">
+            <IconFaith />
+            {t.navFaith}
+          </Link>
+        )}
         <Link to="/kontakt">
           <IconContact />
           {t.navContact}

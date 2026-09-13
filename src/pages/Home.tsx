@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { AppCard, SoonCard } from '../components/AppCard'
+import { HeroCross } from '../components/Icons'
 import { byKind } from '../content/catalogue'
+import { SHOW_FAITH } from '../content/features'
 import { useApp } from '../lib/state'
 
 /* Four real entries means two per grid, which looks thin. Set this to false
@@ -15,6 +17,7 @@ export function Home() {
   return (
     <main>
       <section className="hero">
+        <HeroCross />
         <p className="kicker">{t.kicker}</p>
         <h1>{t.heroTitle}</h1>
         <p>{t.heroSub}</p>
@@ -94,19 +97,21 @@ export function Home() {
           </ul>
         </div>
 
-        <div className="faith-teaser" id="glaube">
-          <p className="kicker">{t.faithKicker}</p>
-          <h2>{t.faithTitle}</h2>
-          <p>{t.faithBody}</p>
-          <div className="cta-row">
-            <Link className="btn-solid" to="/glaube">
-              {t.faithCta}
-            </Link>
-            <a className="btn-outline" href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
-              {t.blogCta}
-            </a>
+        {SHOW_FAITH && (
+          <div className="faith-teaser" id="glaube">
+            <p className="kicker">{t.faithKicker}</p>
+            <h2>{t.faithTitle}</h2>
+            <p>{t.faithBody}</p>
+            <div className="cta-row">
+              <Link className="btn-solid" to="/glaube">
+                {t.faithCta}
+              </Link>
+              <a className="btn-outline" href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
+                {t.blogCta}
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   )

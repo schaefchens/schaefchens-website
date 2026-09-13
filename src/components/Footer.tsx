@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { SHOW_FAITH } from '../content/features'
 import { useApp } from '../lib/state'
 
 export function Footer() {
@@ -13,7 +14,7 @@ export function Footer() {
         <a href="https://github.com/schaefchens" target="_blank" rel="noreferrer noopener">
           github.com/schaefchens
         </a>
-        <Link to="/glaube">{t.navFaith}</Link>
+        {SHOW_FAITH && <Link to="/glaube">{t.navFaith}</Link>}
         <Link to="/kontakt">{t.navContact}</Link>
         <Link to="/impressum">{t.imprint}</Link>
         <Link to="/datenschutz">{t.privacy}</Link>
