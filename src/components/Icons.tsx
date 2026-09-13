@@ -80,7 +80,7 @@ export const HeroCross = () => (
     focusable="false"
   >
     <path
-      d="M26 0 h4 v22 h18 v4 h-18 v58 h-4 v-58 h-18 v-4 h18 z"
+      d="M25 0 h6 v21 h17 v6 h-17 v57 h-6 v-57 h-17 v-6 h17 z"
       fill="currentColor"
     />
   </svg>
