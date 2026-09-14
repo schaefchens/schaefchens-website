@@ -40,7 +40,7 @@ export const en: Strings = {
     'No ads, no tracking',
     'No forced accounts, no subscriptions',
     'Privacy respected',
-    'Built in Germany',
+    'Open source (PolyForm Non-Commercial)',
   ],
 
   licKicker: 'License & source',
