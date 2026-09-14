@@ -504,7 +504,7 @@ a.card:hover {
   aspect-ratio: 1;
   border-radius: 22%;
   object-fit: cover;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.46);
 }
 .card__glyph {
   font-family: Newsreader, serif;

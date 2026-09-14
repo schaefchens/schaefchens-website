@@ -55,11 +55,20 @@ export interface Entry {
   en: Localised
 }
 
+/* The ground each icon stands on.
+ *
+ * These were tuned when the icons were flat gold marks on near-black, so they
+ * could afford to be the bright thing on the card. The real app icons are
+ * full illustrations with their own light in them, and against the old
+ * gradients they either clashed (Bible Quiz's blue on magenta) or sank
+ * (Walk in the Spirit's green on green). Each keeps its hue — the cards still
+ * read as four different things — but darker and less saturated, so the icon
+ * is now the brightest element rather than competing with the card. */
 const ART = {
-  bible: 'linear-gradient(150deg,#2c3a6e 0%,#4a5aa0 55%,#8e7bb5 100%)',
-  spirit: 'linear-gradient(150deg,#1f4d45 0%,#2f7a63 55%,#c9a24a 100%)',
-  quiz: 'linear-gradient(150deg,#5c2340 0%,#93395a 50%,#d8b25c 100%)',
-  expanse: 'linear-gradient(150deg,#24404f 0%,#356070 55%,#7fa8b8 100%)',
+  bible: 'linear-gradient(150deg,#232c54 0%,#3a4680 55%,#6a5b92 100%)',
+  spirit: 'linear-gradient(150deg,#102a25 0%,#1c4437 55%,#2c5a44 100%)',
+  quiz: 'linear-gradient(150deg,#2a1020 0%,#4a1c33 55%,#6b2d44 100%)',
+  expanse: 'linear-gradient(150deg,#142631 0%,#213e4b 55%,#325566 100%)',
 } as const
 
 const shots = (id: string, lang: Lang, n: number): string[] =>
