@@ -40,7 +40,7 @@ export const de: Strings = {
     'Keine Werbung, kein Tracking',
     'Kein Kontozwang, keine Abos',
     'Privatsphäre respektiert',
-    'Open Source (PolyForm Non-Commercial)',
+    'Source available (PolyForm Non-Commercial)',
   ],
 
   licKicker: 'Lizenz & Quellcode',
