@@ -25,20 +25,21 @@ export const en: Strings = {
   soonBadge: 'Soon',
 
   aboutKicker: 'About Schäfchens',
-  aboutTitle: 'One developer, who believes.',
+  aboutTitle: 'Pardoned by God',
   aboutBody:
-    'Behind schäfchens.de stands one person: a Christian who writes software. What is built ' +
-    'here is not a company or a product catalogue, but work on tools that help with reading ' +
-    'scripture, with prayer and with daily life.',
+    'God made me in His great wisdom and called me to follow Him. Grateful for many gifts ' +
+    'and a heartfelt passion for computing, I want to use them to spread the Word and to ' +
+    'strengthen others in following Him.',
   aboutBody2:
-    'Everything is free and without ads. Questions and bug reports are welcome — and the ' +
-    'blog carries longer texts on faith and scripture.',
+    "By God's great grace He has enabled me, with modern AI and tools, to have a part in " +
+    'these works in faith. Thanks also to my dear friend, who shared these tools with me ' +
+    'and so gave me the nudge to take them up.',
   aboutFacts: [
-    'Confessing Christian, scripture as the measure',
+    'A follower of the Lord',
     'Every app and game is free',
     'No ads, no tracking',
-    'No user account, with one exception',
-    'Data stays on the device wherever it can',
+    'No forced accounts, no subscriptions',
+    'Privacy respected',
     'Built in Germany',
   ],
 

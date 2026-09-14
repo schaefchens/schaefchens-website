@@ -25,20 +25,21 @@ export const de: Strings = {
   soonBadge: 'Bald',
 
   aboutKicker: 'Über Schäfchens',
-  aboutTitle: 'Ein Entwickler, der glaubt.',
+  aboutTitle: 'Ein durch Gott Begnadigter',
   aboutBody:
-    'Hinter schäfchens.de steht eine Person: ein Christ, der Software schreibt. Was hier ' +
-    'entsteht, ist keine Firma und kein Produktkatalog, sondern Arbeit an Werkzeugen, die ' +
-    'beim Lesen der Schrift, beim Gebet und im Alltag helfen.',
+    'Gott hat mich geschaffen in Seiner großen Weisheit und mich gerufen, Ihm zu folgen. ' +
+    'Dankbar mit vielen Gaben und einer herzlichen Leidenschaft für Computertechnik ' +
+    'möchte ich diese nutzen, um das Wort zu verbreiten und Nachfolge zu stärken.',
   aboutBody2:
-    'Alles ist kostenlos und ohne Werbung. Wer Fragen hat oder Fehler findet, darf sich ' +
-    'melden — und im Blog stehen längere Texte zu Glaube und Schrift.',
+    'Dank Gottes großer Gnade hat Er mich mit moderner KI und Werkzeugen bemächtigt, ' +
+    'diese Werke im Glauben mitzuwirken. Dank auch an meinen lieben Freund, der diese ' +
+    'Werkzeuge mit mir geteilt und mir so den Anstoß gegeben hat, mich damit zu befassen.',
   aboutFacts: [
-    'Bekennender Christ, Bibel als Maßstab',
+    'Ein Nachfolger des Herrn',
     'Alle Apps und Spiele kostenlos',
     'Keine Werbung, kein Tracking',
-    'Bis auf eine Ausnahme ohne Nutzerkonto',
-    'Daten bleiben, wo es geht, auf dem Gerät',
+    'Kein Kontozwang, keine Abos',
+    'Privatsphäre respektiert',
     'Entwickelt in Deutschland',
   ],
 
