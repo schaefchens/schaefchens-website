@@ -235,7 +235,7 @@ export const de: Strings = {
     },
   ],
 
-  footTag: 'Apps und Spiele rund um die Schrift',
+  footTag: 'Biblische Apps und Spiele',
   notFound: 'Diese Seite gibt es nicht.',
   notFoundBack: 'Zur Übersicht',
 }

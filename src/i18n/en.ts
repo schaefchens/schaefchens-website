@@ -227,7 +227,7 @@ export const en: Strings = {
     },
   ],
 
-  footTag: 'Apps and games around scripture',
+  footTag: 'Biblical apps and games',
   notFound: 'This page does not exist.',
   notFoundBack: 'Back to overview',
 }
