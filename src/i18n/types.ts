@@ -46,6 +46,8 @@ export interface Strings {
   licCta: string
   licPoints: string[]
   sourceCta: string
+  /** Short form, for the footer link. `licTitle` is the page's own heading. */
+  licenceNav: string
   licenceLine: string
   licenceProprietary: string
 

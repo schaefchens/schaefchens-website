@@ -37,7 +37,7 @@
   --accent-ln: rgba(216, 178, 92, 0.24);
   --accent-tint: rgba(216, 178, 92, 0.08);
   --shot-shadow: rgba(0, 0, 0, 0.45);
-  --cross-glow: rgba(216, 178, 92, 0.34);
+  --dove-glow: rgba(216, 178, 92, 0.34);
   color-scheme: dark;
 }
 
@@ -75,7 +75,7 @@
     --accent-ln: rgba(138, 100, 22, 0.26);
     --accent-tint: rgba(184, 135, 40, 0.1);
     --shot-shadow: rgba(70, 56, 28, 0.22);
-    --cross-glow: rgba(138, 100, 22, 0.16);
+    --dove-glow: rgba(138, 100, 22, 0.16);
     color-scheme: light;
   }
 }
@@ -108,6 +108,6 @@
   --accent-ln: rgba(138, 100, 22, 0.26);
   --accent-tint: rgba(184, 135, 40, 0.1);
   --shot-shadow: rgba(70, 56, 28, 0.22);
-  --cross-glow: rgba(138, 100, 22, 0.16);
+  --dove-glow: rgba(138, 100, 22, 0.16);
   color-scheme: light;
 }

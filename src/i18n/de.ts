@@ -58,6 +58,7 @@ export const de: Strings = {
     'Einzelne Anwendungen können abweichen — siehe die jeweilige Seite',
   ],
   sourceCta: 'Quellcode auf GitHub',
+  licenceNav: 'Lizenz',
   licenceLine: 'PolyForm Noncommercial 1.0.0',
   licenceProprietary: 'Alle Rechte vorbehalten — Quellcode nicht veröffentlicht',
 

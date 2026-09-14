@@ -139,7 +139,7 @@ export const ENTRIES: Entry[] = [
     art: ART.expanse,
     icon: '/media/icons/expanse-horizons.webp',
     licence: 'proprietary',
-    web: 'https://expanse.schaefchens.de/',
+    web: 'https://expanse.apps.schaefchens.de/?install=1',
     de: {
       name: 'Expanse Horizons',
       badge: 'App',

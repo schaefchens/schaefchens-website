@@ -58,6 +58,7 @@ export const en: Strings = {
     'Individual applications may differ — see their own page',
   ],
   sourceCta: 'Source on GitHub',
+  licenceNav: 'License',
   licenceLine: 'PolyForm Noncommercial 1.0.0',
   licenceProprietary: 'All rights reserved — source not published',
 

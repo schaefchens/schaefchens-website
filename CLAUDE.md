@@ -144,6 +144,33 @@ than from written material, and the one to re-check. It is also the only
 proprietary entry and the only one requiring an account — which is why the
 site-wide "no user accounts" claim was softened to "with one exception".
 
+## What is hidden, and how
+
+`src/content/features.ts` holds the flags for things that exist but are not
+shown. `SHOW_FAITH` takes the "Über den Glauben" teaser out of the home page
+and its links out of the nav and footer; `SHOW_COMING_SOON` drops the padding
+tiles that filled each grid while there were only two entries per kind. Both
+are off. Nothing is deleted — the copy, the route and the page stay in the
+tree, so flipping a flag brings the whole thing back at once. `/glaube` still
+answers if typed directly.
+
+The licence lives on its own page (`/lizenz`), reached from the footer rather
+than the nav: it is reference material people come to deliberately, not
+something to meet on the way to the catalogue.
+
+## The screenshot viewer
+
+`src/components/Lightbox.tsx` is a native `<dialog>`, which is why there is so
+little of it. `showModal()` supplies the focus trap, Escape, the top layer and
+`::backdrop`; what is written by hand is the paging, the swipe, and the body
+scroll lock — `showModal()` alone does not stop the page scrolling underneath
+on iOS.
+
+Thumbnails are `<button>`s, not bare images, so the viewer opens from the
+keyboard as well as a click. On phones the paging arrows move from the sides of
+the image to a bar beneath it, because at 390px they would otherwise sit on top
+of the screenshot; swiping is the primary gesture there in any case.
+
 ## Contact
 
 `server/api/contact.php` requires the gate cookie, then applies a honeypot, a

@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ContactForm } from '../components/ContactForm'
+import { Lightbox } from '../components/Lightbox'
 import { InstallButtons, SourceLine } from '../components/InstallButtons'
 import { byId, ENTRIES } from '../content/catalogue'
 import { useApp } from '../lib/state'
@@ -9,6 +11,11 @@ export function Detail() {
   const { id } = useParams<{ id: string }>()
   const { lang, t } = useApp()
   const entry = id ? byId(id) : undefined
+  const [shot, setShot] = useState<number | null>(null)
+
+  // Walking from one app to another must not leave the viewer open on the
+  // previous app's screenshots.
+  useEffect(() => setShot(null), [id])
 
   if (!entry) return <NotFound />
 
@@ -42,16 +49,30 @@ export function Detail() {
             <h2 className="sr-only">{t.screenshots}</h2>
             <div className={entry.shotAspect === 'landscape' ? 'shots shots--landscape' : 'shots'}>
               {c.shots.map((src, i) => (
-                <img
+                <button
                   key={src}
-                  src={src}
-                  alt={`${c.name} — ${t.screenshots} ${i + 1}`}
-                  loading="lazy"
-                  width={540}
-                  height={entry.shotAspect === 'landscape' ? 304 : 960}
-                />
+                  type="button"
+                  className="shots__item"
+                  onClick={() => setShot(i)}
+                  aria-label={`${c.name} — ${t.screenshots} ${i + 1}`}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    width={540}
+                    height={entry.shotAspect === 'landscape' ? 304 : 960}
+                  />
+                </button>
               ))}
             </div>
+            <Lightbox
+              shots={c.shots}
+              index={shot}
+              label={`${c.name} — ${t.screenshots}`}
+              onClose={() => setShot(null)}
+              onIndex={setShot}
+            />
           </>
         )}
 

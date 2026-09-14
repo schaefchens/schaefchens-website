@@ -8,3 +8,7 @@
  *  links. The /glaube route itself keeps working, so the page is reachable by
  *  direct URL — hidden, not removed. */
 export const SHOW_FAITH = false
+
+/** The dimmed "In Arbeit" tile that padded out each grid while there were only
+ *  two entries per kind. Off — four real entries carry the page on their own. */
+export const SHOW_COMING_SOON = false

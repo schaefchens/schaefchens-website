@@ -9,13 +9,14 @@ export function Footer() {
       <span className="footer__tag">schäfchens.de — {t.footTag}</span>
       <span className="footer__links">
         <a href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
-          blog.schaefchens.de
+          Blog
         </a>
         <a href="https://github.com/schaefchens" target="_blank" rel="noreferrer noopener">
-          github.com/schaefchens
+          GitHub
         </a>
         {SHOW_FAITH && <Link to="/glaube">{t.navFaith}</Link>}
         <Link to="/kontakt">{t.navContact}</Link>
+        <Link to="/lizenz">{t.licenceNav}</Link>
         <Link to="/impressum">{t.imprint}</Link>
         <Link to="/datenschutz">{t.privacy}</Link>
       </span>

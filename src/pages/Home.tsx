@@ -1,13 +1,8 @@
 import { Link } from 'react-router-dom'
 import { AppCard, SoonCard } from '../components/AppCard'
-import { HeroCross } from '../components/Icons'
 import { byKind } from '../content/catalogue'
-import { SHOW_FAITH } from '../content/features'
+import { SHOW_COMING_SOON, SHOW_FAITH } from '../content/features'
 import { useApp } from '../lib/state'
-
-/* Four real entries means two per grid, which looks thin. Set this to false
- * once there are three or more of a kind and the padding tile can go. */
-const SHOW_COMING_SOON = true
 
 export function Home() {
   const { t } = useApp()
@@ -17,7 +12,11 @@ export function Home() {
   return (
     <main>
       <section className="hero">
-        <HeroCross />
+        {/* The dove of the Spirit. A cross here read as a memorial rather than
+            as the workshop's mark — same reason the blessing carries one. */}
+        <span className="hero__dove" role="presentation" aria-hidden="true">
+          {'\u{1F54A}\u{FE0F}'}
+        </span>
         <p className="kicker">{t.kicker}</p>
         <h1>{t.heroTitle}</h1>
         <p>{t.heroSub}</p>
@@ -69,32 +68,6 @@ export function Home() {
             <p>{t.aboutBody}</p>
             <p>{t.aboutBody2}</p>
           </div>
-        </div>
-
-        <div className="panel panel--split" id="lizenz">
-          <div>
-            <p className="kicker">{t.licKicker}</p>
-            <h2>{t.licTitle}</h2>
-            <p>{t.licBody}</p>
-            <div className="lic__actions">
-              <a
-                className="pill pill--accent"
-                href="https://polyformproject.org/licenses/noncommercial/1.0.0/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {t.licCta}
-              </a>
-              <a className="pill" href="https://github.com/schaefchens" target="_blank" rel="noreferrer noopener">
-                github.com/schaefchens
-              </a>
-            </div>
-          </div>
-          <ul className="ticks">
-            {t.licPoints.map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
         </div>
 
         {SHOW_FAITH && (
