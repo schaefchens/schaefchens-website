@@ -834,7 +834,7 @@ a.card:hover {
   font-size: 14px;
   color: var(--faint);
 }
-.srcline a {
+.srcline__btn {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -844,9 +844,22 @@ a.card:hover {
   color: var(--ink);
   font-weight: 500;
 }
-.srcline a:hover {
+.srcline__btn:hover {
   border-color: var(--accent-br);
   color: var(--accent-hi);
+}
+
+/* Plain text that happens to lead somewhere — it sits beside the source
+   button and must not read as a second button. */
+.srcline__lic {
+  color: var(--faint);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-ln);
+  text-underline-offset: 3px;
+}
+.srcline__lic:hover {
+  color: var(--accent-hi);
+  text-decoration-color: currentColor;
 }
 
 .shots {

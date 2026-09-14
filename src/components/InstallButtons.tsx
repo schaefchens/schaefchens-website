@@ -1,4 +1,4 @@
-import type { Entry } from '../content/catalogue'
+import { POLYFORM_NC_URL, type Entry } from '../content/catalogue'
 import { useApp } from '../lib/state'
 
 /** The install row on a detail page: the web app, plus Play where it exists. */
@@ -41,14 +41,22 @@ export function SourceLine({ entry }: { entry: Entry }) {
   return (
     <div className="srcline">
       {entry.github && (
-        <a href={entry.github} target="_blank" rel="noreferrer noopener">
+        <a className="srcline__btn" href={entry.github} target="_blank" rel="noreferrer noopener">
           <span aria-hidden="true" style={{ fontFamily: 'Newsreader, serif', fontSize: 17 }}>
             ⌥
           </span>
           {t.sourceCta}
         </a>
       )}
-      <span>{entry.licence === 'polyform-nc' ? t.licenceLine : t.licenceProprietary}</span>
+      {/* Only the PolyForm line leads anywhere — "all rights reserved" has no
+          document to point at. */}
+      {entry.licence === 'polyform-nc' ? (
+        <a className="srcline__lic" href={POLYFORM_NC_URL} target="_blank" rel="noreferrer noopener">
+          {t.licenceLine}
+        </a>
+      ) : (
+        <span>{t.licenceProprietary}</span>
+      )}
     </div>
   )
 }

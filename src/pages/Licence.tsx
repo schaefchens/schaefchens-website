@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { POLYFORM_NC_URL } from '../content/catalogue'
 import { useApp } from '../lib/state'
 
 /* Lifted off the home page, which had grown into a scroll of panels. The
@@ -27,7 +28,7 @@ export function Licence() {
       <div className="lic__actions">
         <a
           className="pill pill--accent"
-          href="https://polyformproject.org/licenses/noncommercial/1.0.0/"
+          href={POLYFORM_NC_URL}
           target="_blank"
           rel="noreferrer noopener"
         >

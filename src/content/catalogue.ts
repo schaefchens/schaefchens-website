@@ -15,6 +15,10 @@ export type Lang = 'de' | 'en'
 /** PolyForm Noncommercial 1.0.0, or closed source with no public licence. */
 export type Licence = 'polyform-nc' | 'proprietary'
 
+/** The licence text itself.
+ *  No trailing slash: polyformproject.org 404s on the slashed form. */
+export const POLYFORM_NC_URL = 'https://polyformproject.org/licenses/noncommercial/1.0.0'
+
 export interface Localised {
   name: string
   badge: string
