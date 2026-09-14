@@ -50,6 +50,9 @@ DO_BUILD=1 DO_PRUNE=0 DRY_RUN=0 VERIFY_ONLY=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
+    # `npm run deploy -- --prune` needs the separator to pass the flag through;
+    # people then type it when calling the script directly too. Ignore it.
+    --)            ;;
     --skip-build)  DO_BUILD=0 ;;
     --prune)       DO_PRUNE=1 ;;
     --dry-run)     DRY_RUN=1 ;;
