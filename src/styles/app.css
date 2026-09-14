@@ -1246,13 +1246,6 @@ a.card:hover {
   font-size: 16px;
   color: var(--faint);
 }
-/* The emoji reads small beside 16px Newsreader, and sits a touch high on its
-   baseline — same treatment as the blessing in the header. */
-.footer__sheep {
-  margin-right: 7px;
-  font-size: 17px;
-  vertical-align: -0.08em;
-}
 .footer__links {
   display: flex;
   gap: 18px;

@@ -6,12 +6,7 @@ export function Footer() {
   const { t } = useApp()
   return (
     <footer className="footer">
-      <span className="footer__tag">
-        <span className="footer__sheep" role="presentation" aria-hidden="true">
-          {'\u{1F411}'}
-        </span>
-        schäfchens.de — {t.footTag}
-      </span>
+      <span className="footer__tag">schäfchens.de — {t.footTag}</span>
       <span className="footer__links">
         <a href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
           Blog
