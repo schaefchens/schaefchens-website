@@ -43,6 +43,8 @@ export interface Strings {
   licKicker: string
   licTitle: string
   licBody: string
+  /** Why a licence this strict — the reason behind the choice. */
+  licWhy: string
   licCta: string
   licPoints: string[]
   sourceCta: string

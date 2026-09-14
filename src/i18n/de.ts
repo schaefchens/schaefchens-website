@@ -49,6 +49,11 @@ export const de: Strings = {
     'Die meisten Apps und Spiele von schäfchens.de werden unter der PolyForm Noncommercial ' +
     'License 1.0.0 veröffentlicht. Der Quellcode liegt offen auf GitHub: nutzen, lesen, ' +
     'anpassen und weitergeben ist für nicht-kommerzielle Zwecke erlaubt.',
+  licWhy:
+    'Warum die strenge PolyForm-Lizenz? Gott hat mir mit großer Gnade und Barmherzigkeit ' +
+    'das Geschenk gemacht, in diesen Apps und Spielen mitzuwirken. Es hat mich kein Geld ' +
+    'gekostet, und so soll es auch keinen anderen etwas kosten, denn unser Herr hat es ' +
+    'bereits bezahlt.',
   licCta: 'Lizenztext lesen',
   licPoints: [
     'Nutzung für private, gemeinnützige und kirchliche Zwecke erlaubt',

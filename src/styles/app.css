@@ -1154,6 +1154,13 @@ a.card:hover {
   color: var(--lead);
   text-wrap: pretty;
 }
+.prose__p {
+  margin: 22px 0 0;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--muted);
+  text-wrap: pretty;
+}
 .prose__note {
   margin: 14px 0 0;
   font-size: 14px;

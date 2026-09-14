@@ -49,6 +49,10 @@ export const en: Strings = {
     'Most apps and games from schäfchens.de are released under the PolyForm Noncommercial ' +
     'License 1.0.0. The source is open on GitHub: reading, using, adapting and sharing is ' +
     'permitted for non-commercial purposes.',
+  licWhy:
+    'Why so strict a license? In great grace and mercy God gave me the gift of a part in ' +
+    'these apps and games. It cost me no money, and so it should cost no one else ' +
+    'anything either — for our Lord has already paid it.',
   licCta: 'Read the license',
   licPoints: [
     'Free for personal, charitable and church use',

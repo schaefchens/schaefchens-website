@@ -18,6 +18,7 @@ export function Licence() {
       </p>
       <h1 style={{ marginTop: 0 }}>{t.licTitle}</h1>
       <p className="prose__lead">{t.licBody}</p>
+      <p className="prose__p">{t.licWhy}</p>
 
       <ul className="ticks" style={{ marginTop: 34 }}>
         {t.licPoints.map((point) => (
