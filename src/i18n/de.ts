@@ -1,11 +1,11 @@
 import type { Strings } from './types'
 
 export const de: Strings = {
-  kicker: 'Apps und Spiele aus einer Hand',
-  heroTitle: 'Software, die zur Schrift hinführt.',
+  kicker: 'Biblische Apps und Spiele',
+  heroTitle: 'Software zur Erbauung in der Nachfolge Jesu',
   heroSub:
-    'Kleine Apps und Spiele rund um Bibel, Gebet und Glauben — für Android und direkt ' +
-    'im Browser installierbar.',
+    'Vom Bruder für die Brüder, Apps und Spiele rund um Bibel, Gebet und Glauben — ' +
+    'gemacht durch die Gnade Gottes mit Claude',
   chipFree: 'Alles kostenlos',
   chipPlatforms: 'Android · Web (PWA)',
 
@@ -18,7 +18,7 @@ export const de: Strings = {
   appsTitle: 'Apps',
   appsNote: 'Werkzeuge für Schrift, Gebet und Alltag',
   gamesTitle: 'Spiele',
-  gamesNote: 'Zum Nachdenken, nicht zum Wetteifern',
+  gamesNote: 'Zur Freude und geistlichen Ernährung',
   soonLine: 'Noch nicht verfügbar',
   soonName: 'In Arbeit',
   soonTagline: 'Etwas Neues ist in Vorbereitung.',

@@ -1,11 +1,11 @@
 import type { Strings } from './types'
 
 export const en: Strings = {
-  kicker: 'Apps and games from one workshop',
-  heroTitle: 'Software that points back to scripture.',
+  kicker: 'Biblical apps and games',
+  heroTitle: 'Software for edification in following Jesus',
   heroSub:
-    'Small apps and games around the Bible, prayer and faith — for Android, and installable ' +
-    'straight from the browser.',
+    'From a brother for the brothers, apps and games around the Bible, prayer and faith — ' +
+    'made by the grace of God with Claude',
   chipFree: 'All free',
   chipPlatforms: 'Android · Web (PWA)',
 
@@ -18,7 +18,7 @@ export const en: Strings = {
   appsTitle: 'Apps',
   appsNote: 'Tools for scripture, prayer and daily life',
   gamesTitle: 'Games',
-  gamesNote: 'For reflection, not for competition',
+  gamesNote: 'For joy and spiritual nourishment',
   soonLine: 'Not yet available',
   soonName: 'In progress',
   soonTagline: 'Something new is in preparation.',
