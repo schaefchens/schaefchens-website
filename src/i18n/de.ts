@@ -14,6 +14,7 @@ export const de: Strings = {
   navFaith: 'Glaube',
   navContact: 'Kontakt',
   navBlog: 'Blog ↗',
+  blogUrl: 'https://blog.schaefchens.de/de/',
 
   appsTitle: 'Apps',
   appsNote: 'Werkzeuge für Schrift, Gebet und Alltag',
@@ -32,8 +33,9 @@ export const de: Strings = {
     'möchte ich diese nutzen, um das Wort zu verbreiten und Nachfolge zu stärken.',
   aboutBody2:
     'Dank Gottes großer Gnade hat Er mich mit moderner KI und Werkzeugen bemächtigt, ' +
-    'diese Werke im Glauben mitzuwirken. Dank auch an meinen lieben Freund, der diese ' +
-    'Werkzeuge mit mir geteilt und mir so den Anstoß gegeben hat, mich damit zu befassen.',
+    'diese Werke im Glauben mitzuwirken. Lieben Dank auch an meinen lieben Freund, der diese ' +
+    'Werkzeuge mit mir geteilt und mir so den Anstoß gegeben hat, mich damit zu befassen. ' +
+    'Und ebenso lieben Dank an meine liebe Freundin und Schwester die mich immer ermutigt hat.',
   aboutFacts: [
     'Ein Nachfolger des Herrn',
     'Alle Apps und Spiele kostenlos',

@@ -21,6 +21,9 @@ export interface Strings {
   navFaith: string
   navContact: string
   navBlog: string
+  /** The blog is bilingual and lives at a different path per language, so its
+   *  address belongs here rather than in a shared constant. */
+  blogUrl: string
 
   /* grids */
   appsTitle: string

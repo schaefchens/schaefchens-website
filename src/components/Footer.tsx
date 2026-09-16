@@ -8,7 +8,7 @@ export function Footer() {
     <footer className="footer">
       <span className="footer__tag">schäfchens.de — {t.footTag}</span>
       <span className="footer__links">
-        <a href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
+        <a href={t.blogUrl} target="_blank" rel="noreferrer noopener">
           Blog
         </a>
         <a href="https://github.com/schaefchens" target="_blank" rel="noreferrer noopener">

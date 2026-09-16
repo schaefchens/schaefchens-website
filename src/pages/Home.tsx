@@ -79,7 +79,7 @@ export function Home() {
               <Link className="btn-solid" to="/glaube">
                 {t.faithCta}
               </Link>
-              <a className="btn-outline" href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
+              <a className="btn-outline" href={t.blogUrl} target="_blank" rel="noreferrer noopener">
                 {t.blogCta}
               </a>
             </div>

@@ -67,7 +67,7 @@ export function Header() {
           <IconContact />
           {t.navContact}
         </Link>
-        <a href="https://blog.schaefchens.de" target="_blank" rel="noreferrer noopener">
+        <a href={t.blogUrl} target="_blank" rel="noreferrer noopener">
           <IconBlog />
           {t.navBlog}
         </a>

@@ -14,6 +14,7 @@ export const en: Strings = {
   navFaith: 'Faith',
   navContact: 'Contact',
   navBlog: 'Blog ↗',
+  blogUrl: 'https://blog.schaefchens.de',
 
   appsTitle: 'Apps',
   appsNote: 'Tools for scripture, prayer and daily life',
@@ -32,8 +33,9 @@ export const en: Strings = {
     'strengthen others in following Him.',
   aboutBody2:
     "By God's great grace He has enabled me, with modern AI and tools, to have a part in " +
-    'these works in faith. Thanks also to my dear friend, who shared these tools with me ' +
-    'and so gave me the nudge to take them up.',
+    'these works in faith. Lovely thanks also to my dear friend, who shared these tools with me ' +
+    'and so gave me the nudge to take them up. Equally so lovely thanks to my dear friend and sister ' +
+    'who always encouraged me to go on.',
   aboutFacts: [
     'A follower of the Lord',
     'Every app and game is free',
