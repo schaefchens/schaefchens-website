@@ -133,11 +133,16 @@ in the right grid with a detail page; there is nothing else to wire up.
 
 Copy is taken from each project's real material — Bible Assistant's from its
 Play Store listing, Bible Quiz's from its own UI strings, Walk in the Spirit's
-from its README. The mockup's placeholder text described different apps and was
-discarded.
+from its README, Arche Radio's from its station page and UI strings. The
+mockup's placeholder text described different apps and was discarded.
 
 Walk in the Spirit's hidden Spirit stat is deliberately absent from its
 description: it is a mechanic to be discovered in play.
+
+Arche Radio's description keeps the app's own disclaimer that it has nothing to
+do with the Arche Gemeinde in Hamburg. The radio opens with that sentence, and
+a page about a Christian radio called Arche invites the same confusion. Its
+host, Hope, is called an AI, as the station page does.
 
 Expanse Horizons is the one entry whose copy was inferred from source rather
 than from written material, and the one to re-check. It is also the only

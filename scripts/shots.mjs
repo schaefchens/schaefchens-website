@@ -100,6 +100,48 @@ const APPS = [
     url: 'https://expanse.schaefchens.de/',
     shots: [{ name: 'landing' }],
   },
+  {
+    id: 'arche-radio',
+    url: 'https://radio.schaefchens.de/',
+    // Its theme follows the device until a listener picks one. The dark one,
+    // Storm Ark, is the navy its icon is drawn in.
+    scheme: 'dark',
+    /* Nothing here taps "Tap to join live": that tap is the listener's consent
+     * to load YouTube, and it would start a listening session on the live
+     * station. The stage is shot as a first visitor sees it. */
+    setup: async (p) => {
+      await until(p, /willkommen bei arche radio|welcome to arche radio/i)
+    },
+    shots: [
+      // A first visit opens on the welcome dialog.
+      { name: 'welcome' },
+      {
+        name: 'live',
+        act: async (p) => {
+          await clickText(p, /^(los geht's|let's get started)$/i)
+          await wait(p, 1500)
+        },
+      },
+      {
+        name: 'schedule',
+        act: async (p) => {
+          await clickText(p, /^(programm|schedule)$/i)
+          // The day's plan arrives after the page, which shows "…" until then.
+          await until(p, /^…$/m, { gone: true })
+          // The player pins to the top on every page. Scrolled to the heading
+          // alone, the plan's first rows were hidden behind it.
+          await p.evaluate(() => {
+            const h = [...document.querySelectorAll('h1,h2')].find((e) => /^(programm|schedule)$/i.test(e.innerText.trim()))
+            if (!h) return
+            h.scrollIntoView({ block: 'start' })
+            const dock = document.querySelector('.stage-dock')
+            if (dock) scrollBy(0, -(dock.getBoundingClientRect().bottom + 16))
+          })
+          await wait(p, 1500)
+        },
+      },
+    ],
+  },
 ]
 
 const wait = (page, ms) => page.evaluate((n) => new Promise((r) => setTimeout(r, n)), ms)
@@ -188,9 +230,16 @@ for (const app of targets) {
     rmSync(dir, { recursive: true, force: true })
     mkdirSync(dir, { recursive: true })
 
-    const page = await browser.newPage()
+    // A context per language, so each run is a first visit. Pages of one
+    // context share storage: Arche Radio's English shots came out in German,
+    // with its welcome dialog already gone — the German run had saved both.
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     const vp = app.viewport ?? { width: 390, height: 844 }
     await page.setViewport({ ...vp, deviceScaleFactor: 2 })
+    // Headless Chrome reports no dark preference, so an app that follows the
+    // device would be shot in its light theme.
+    if (app.scheme) await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: app.scheme }])
     await page.setExtraHTTPHeaders({ 'Accept-Language': lang === 'de' ? 'de-DE,de;q=0.9' : 'en-US,en;q=0.9' })
     // i18next reads navigator.language, which the header alone does not change.
     await page.evaluateOnNewDocument((l) => {
@@ -215,7 +264,7 @@ for (const app of targets) {
     } catch (err) {
       console.error(`  ${app.id}/${lang}: FAILED — ${err.stack ?? err.message}`)
     }
-    await page.close()
+    await context.close()
   }
 }
 

@@ -107,6 +107,7 @@ Nothing here is invented marketing text.
 | Bible Assistant | its actual Play Store listing, `resources/store/listing-{de-DE,en-US}.md` |
 | Bible Quiz | its own UI strings (`client/src/locales/*.json`) |
 | Walk in the Spirit | its README |
+| Arche Radio | its station page and UI strings (`app/src/content/legal.ts`, `app/src/i18n/*.json`) |
 | Expanse Horizons | read from the source; **the least certain — worth a review** |
 
 The design mockup shipped placeholder copy describing rather different apps
@@ -132,6 +133,10 @@ Both games open with something in the way (a tip modal, a splash sequence), so
 the script clicks by visible text and waits on a condition rather than a fixed
 delay. After capturing, update the count in `src/content/catalogue.ts` —
 `shots(id, lang, n)` takes the number per language.
+
+Each language runs in a browser context of its own, so both are a first visit.
+Arche Radio is shot in its dark theme and never joined: "Tap to join live" is
+the listener's consent to YouTube.
 
 ## Legal
 

@@ -1,10 +1,11 @@
-/* The four projects this store lists.
+/* The projects this store lists.
  *
  * Copy is not invented: Bible Assistant's comes from its actual Play Store
  * listing (resources/store/listing-{de-DE,en-US}.md), the two games' from their
- * READMEs and their own UI strings. The mockup's placeholder text described
- * different apps than the ones that exist — see README.md, "Where the copy
- * comes from".
+ * READMEs and their own UI strings, Arche Radio's from its station page
+ * (app/src/content/legal.ts) and UI strings. The mockup's placeholder text
+ * described different apps than the ones that exist — see README.md, "Where
+ * the copy comes from".
  *
  * Add an entry here and it appears in the right grid with a detail page; there
  * is nothing else to register. */
@@ -62,13 +63,17 @@ export interface Entry {
  * full illustrations with their own light in them, and against the old
  * gradients they either clashed (Bible Quiz's blue on magenta) or sank
  * (Walk in the Spirit's green on green). Each keeps its hue — the cards still
- * read as four different things — but darker and less saturated, so the icon
- * is now the brightest element rather than competing with the card. */
+ * read as different things — but darker and less saturated, so the icon
+ * is now the brightest element rather than competing with the card.
+ *
+ * Arche Radio's is the one warm ground: its icon is a navy tile, and on any of
+ * the blues it would sink into the card. The ark's timber keeps it a tile. */
 const ART = {
   bible: 'linear-gradient(150deg,#232c54 0%,#3a4680 55%,#6a5b92 100%)',
   spirit: 'linear-gradient(150deg,#102a25 0%,#1c4437 55%,#2c5a44 100%)',
   quiz: 'linear-gradient(150deg,#2a1020 0%,#4a1c33 55%,#6b2d44 100%)',
   expanse: 'linear-gradient(150deg,#142631 0%,#213e4b 55%,#325566 100%)',
+  arche: 'linear-gradient(150deg,#2a1a0e 0%,#4a2f1a 55%,#6b4527 100%)',
 } as const
 
 const shots = (id: string, lang: Lang, n: number): string[] =>
@@ -143,6 +148,80 @@ export const ENTRIES: Entry[] = [
         ['Account', 'Not required'],
       ],
       shots: shots('bible-assistant', 'en', 4),
+    },
+  },
+
+  {
+    id: 'arche-radio',
+    kind: 'app',
+    art: ART.arche,
+    icon: '/media/icons/arche-radio.webp',
+    licence: 'polyform-nc',
+    github: 'https://github.com/schaefchens/radio-app',
+    web: 'https://radio.schaefchens.de/?install=1',
+    de: {
+      name: 'Arche Radio',
+      badge: 'App',
+      tagline: 'Christliches Community-Radio: ein Programm, viele Nationen, eine Familie.',
+      body:
+        'Alle, die einschalten, hören im selben Moment denselben Song, dasselbe Gebet und ' +
+        'dieselbe Geschichte — egal, wo auf der Welt sie gerade sind. Zwischen den Lobpreis-Songs ' +
+        'spricht Hope, eine KI, über das, was gerade läuft, über Liedwünsche und Gebetsanliegen — ' +
+        'für alle in der eigenen Sprache, Deutsch oder Englisch. Arche Radio ist ein eigenständiges ' +
+        'Projekt und hat trotz seines Namens nichts mit der Arche Gemeinde in Hamburg zu tun.',
+      features: [
+        'Lied wünschen: ein YouTube-Link, auf Wunsch mit Widmung',
+        'Geschichte, Zeugnis oder Gruß als Sprachaufnahme einsenden',
+        'Gebetsanliegen schicken — Hope betet auf Sendung dafür',
+        'Gebetswand: die Anliegen anderer, ohne Namen, zum Mitbeten',
+        'Gebetsstunden, in denen für die Anliegen der Stunde gebetet wird',
+        'Community-Räume zum Schreiben mit anderen Hörerinnen und Hörern',
+        'Kein Konto: auf Wunsch nehmen zwölf Wörter deine Identität auf ein anderes Gerät mit',
+      ],
+      shots: shots('arche-radio', 'de', 3),
+      verse: "Siehe, wie fein und lieblich ist's, dass Brüder einträchtig beieinander wohnen!",
+      verseRef: 'Psalm 133,1',
+      meta: [
+        ['Kategorie', 'Radio · Gemeinschaft'],
+        ['Plattformen', 'Web'],
+        ['Preis', 'Kostenlos'],
+        ['Sprachen', 'Deutsch, Englisch'],
+        ['Sendezeit', 'Rund um die Uhr'],
+        ['Moderation', 'Hope, eine KI'],
+        ['Konto', 'Nicht nötig'],
+      ],
+    },
+    en: {
+      name: 'Arche Radio',
+      badge: 'App',
+      tagline: 'Christian community radio: one program, many nations, one family.',
+      body:
+        'Everyone who tunes in hears the same song, the same prayer and the same story at the ' +
+        'same moment — wherever in the world they are. Between the worship songs Hope, an AI, ' +
+        'speaks about what is playing, about song requests and prayer requests — to each listener ' +
+        'in their own language, English or German. Arche Radio is an independent project: despite ' +
+        'its name, it has nothing to do with the Arche church (Arche Gemeinde) in Hamburg.',
+      features: [
+        'Request a song: a YouTube link, with a dedication if you like',
+        'Send a story, a testimony or a greeting as a voice recording',
+        'Send a prayer request — Hope prays for it on air',
+        "A prayer wall of other listeners' requests, without names, to pray along",
+        'Prayer hours, in which the requests of the hour are prayed for',
+        'Community rooms to write with other listeners',
+        'No account: twelve words take your identity to another device, if you like',
+      ],
+      shots: shots('arche-radio', 'en', 3),
+      verse: 'Behold, how good and how pleasant it is for brethren to dwell together in unity!',
+      verseRef: 'Psalm 133:1',
+      meta: [
+        ['Category', 'Radio · community'],
+        ['Platforms', 'Web'],
+        ['Price', 'Free'],
+        ['Languages', 'German, English'],
+        ['On air', 'Around the clock'],
+        ['Host', 'Hope, an AI'],
+        ['Account', 'Not required'],
+      ],
     },
   },
 
